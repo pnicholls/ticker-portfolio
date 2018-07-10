@@ -1,0 +1,25 @@
+<%= tag.div class: 'bg-none mb2 md-mb4' do %>
+  <%= tag.div class: 'container px3 clearfix border-box' %>
+<% end %>
+
+<%= tag.div class: 'container' do %>
+  <%= tag.div class: 'rounded bg-white shadow-small', style: 'min-height: 1000px;' do %>
+    <%= tag.section class: 'mnx1' do %>
+      <%= tag.div class: 'container border-box px3 mt0 mb1' do %>
+        <%= tag.div class: '' do %>
+          <%= tag.div class: 'pt3 inline-block col-10 align-top' do %>
+            <%= tag.h1 class: 'h3 mt0 mb1 regular' do %>
+              <%= tag.b 'Portfolio' %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= tag.section do %>
+      <%= tag.div class: 'container px3 border-box portfolio' %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= javascript_pack_tag 'portfolio' %>
