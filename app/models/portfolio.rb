@@ -7,4 +7,8 @@ class Portfolio < ApplicationRecord
   def self.default
     where(default: true).first
   end
+
+  def refresh
+    securities.each(&:refresh)
+  end
 end
