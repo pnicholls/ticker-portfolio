@@ -32,6 +32,22 @@ export const numberRenderer = ({
     .toUpperCase();
 };
 
+export const priceRenderer = ({
+  cellData,
+  columnData,
+  columnIndex,
+  dataKey,
+  isScrolling,
+  rowData,
+  rowIndex
+}) => {
+  if (isNaN(parseFloat(cellData))) {
+    return cellData;
+  }
+
+  return numeral(cellData).format("'0,0.0'");
+};
+
 export const changePercentRenderer = ({
   cellData,
   columnData,

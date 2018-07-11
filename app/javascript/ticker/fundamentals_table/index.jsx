@@ -4,7 +4,8 @@ import { AutoSizer, WindowScroller, Table, Column } from "react-virtualized";
 import {
   boldCellRenderer,
   changePercentRenderer,
-  numberRenderer
+  numberRenderer,
+  priceRenderer
 } from "../../src/lib/table_renderers";
 
 const FundamentalsTable = props => {
@@ -48,6 +49,7 @@ const FundamentalsTable = props => {
                 headerClassName="h6 bold muted"
                 className="h6"
                 cellDataGetter={({ rowData }) => rowData.quote.latestPrice}
+                cellRenderer={priceRenderer}
                 dataKey="lastPrice"
                 width={100}
               />
