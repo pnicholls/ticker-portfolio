@@ -26,7 +26,7 @@ const GET_PORTFOLIO = gql`
   }
 `;
 
-const defaultSecurities = [...Array(4)].map((_, i) => ({
+const defaultData = [...Array(4)].map((_, i) => ({
   name: "...",
   symbol: "...",
   quote: {
@@ -41,13 +41,6 @@ const defaultSecurities = [...Array(4)].map((_, i) => ({
   }
 }));
 
-const defaultData = {
-  portfolio: {
-    name: "Loading",
-    securities: defaultSecurities
-  }
-};
-
 const Fundamentals = props => (
   <Query
     query={GET_PORTFOLIO}
@@ -56,7 +49,10 @@ const Fundamentals = props => (
   >
     {({ loading, error, data }) => {
       if (error) return `Error! ${error.message}`;
-      data = Object.keys(data).length !== 0 ? data : defaultData;
+      data =
+        Object.keys(data).length !== 0
+          ? data.portfolio.securities
+          : defaultData;
 
       return <FundamentalsTable {...props} data={data} />;
     }}
