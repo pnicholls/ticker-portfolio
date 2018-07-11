@@ -1,2 +1,3 @@
 default:
-  name: Default
+  name: Portfolio
+  default: true

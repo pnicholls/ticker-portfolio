@@ -1,3 +1,31 @@
-atlassian:
-  name: Atlassian
-  symbol: TEAM
+facebook:
+  name: Facebook Inc.
+  symbol: FB
+
+apple:
+  name: Apple Inc.
+  symbol: AAPL
+
+alphabet:
+  name: Alphabet Inc.
+  symbol: GOOG
+
+netflix:
+  name: Netflix Inc.
+  symbol: NFLX
+
+berkshire:
+  name: Berkshire Hathaway Inc.
+  symbol: BRK.B
+
+tesla:
+  name: Tesla Inc.
+  symbol: TSLA
+
+amazon:
+  name: Amazon.com Inc.
+  symbol: AMZN
+
+daily_journal:
+  name: Daily Journal Corp.
+  symbol: DJCO

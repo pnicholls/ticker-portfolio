@@ -27,8 +27,10 @@ ActiveRecord::Schema.define(version: 2018_07_10_013459) do
 
   create_table "portfolios", force: :cascade do |t|
     t.string "name", null: false
+    t.boolean "default", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["default"], name: "index_portfolios_on_default"
   end
 
   create_table "securities", force: :cascade do |t|

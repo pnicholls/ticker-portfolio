@@ -1,3 +1,31 @@
-default_atlassian:
+default_facebook:
   portfolio: default
-  security: atlassian
+  security: facebook
+
+default_apple:
+  portfolio: default
+  security: apple
+
+default_alphabet:
+  portfolio: default
+  security: alphabet
+
+default_netflix:
+  portfolio: default
+  security: netflix
+
+default_berkshire:
+  portfolio: default
+  security: berkshire
+
+default_tesla:
+  portfolio: default
+  security: tesla
+
+default_amazon:
+  portfolio: default
+  security: amazon
+
+default_daily_journal:
+  portfolio: default
+  security: daily_journal
