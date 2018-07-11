@@ -9,6 +9,7 @@
 /* Grid default theme */
 
 .ReactVirtualized__Grid {
+  outline: none;
 }
 
 .ReactVirtualized__Grid__innerScrollContainer {
@@ -17,6 +18,7 @@
 /* Table default theme */
 
 .ReactVirtualized__Table {
+  outline: none;
 }
 
 .ReactVirtualized__Table__Grid {
@@ -51,6 +53,7 @@
 
 .ReactVirtualized__Table__headerColumn,
 .ReactVirtualized__Table__rowColumn {
+  outline: none;
   margin-right: 10px;
   min-width: 0px;
 }
