@@ -5,10 +5,6 @@ class Quote
     @security = security
   end
 
-  def refresh
-    data
-  end
-
   def latest_price
     data.fetch('latestPrice', nil)
   end
@@ -37,21 +33,25 @@ class Quote
     data.fetch('low', nil)
   end
 
+  def refresh
+    FetchSecurityQuoteJob.perform_later(security) unless Rails.cache.read(cache_key)
+  end
+
+  def fetch
+    Rails.cache.fetch(cache_key, expires_in: 5.minutes) do
+      uri = URI("https://api.iextrading.com/1.0/stock/#{security.symbol}/quote")
+      response = Net::HTTP.get(uri)
+      JSON.parse(response)
+    end
+  end
+
   private
 
   def data
-    Rails.cache.fetch(cache_key, expires_in: 5.minutes) do
-      fetch_quote
-    end
+    Rails.cache.fetch(cache_key) || {}
   end
 
   def cache_key
     "stock/#{security.symbol}/quote"
-  end
-
-  def fetch_quote
-    uri = URI("https://api.iextrading.com/1.0/stock/#{security.symbol}/quote")
-    response = Net::HTTP.get(uri)
-    JSON.parse(response)
   end
 end

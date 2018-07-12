@@ -1,31 +1,39 @@
 facebook:
+  identifier: 2705
   name: Facebook Inc.
   symbol: FB
 
 apple:
+  identifier: 13
   name: Apple Inc.
   symbol: AAPL
 
 alphabet:
+  identifier: 3382
   name: Alphabet Inc.
   symbol: GOOG
 
 netflix:
+  identifier: 5400
   name: Netflix Inc.
   symbol: NFLX
 
 berkshire:
+  identifier: 989
   name: Berkshire Hathaway Inc.
   symbol: BRK.B
 
 tesla:
+  identifier: 7712
   name: Tesla Inc.
   symbol: TSLA
 
 amazon:
+  identifier: 371
   name: Amazon.com Inc.
   symbol: AMZN
 
 daily_journal:
+  identifier: 2007
   name: Daily Journal Corp.
   symbol: DJCO

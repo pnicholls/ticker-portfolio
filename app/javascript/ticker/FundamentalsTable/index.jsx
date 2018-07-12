@@ -14,13 +14,9 @@ import {
   changePercentRenderer,
   numberRenderer,
   priceRenderer
-} from "../../src/lib/table_renderers";
+} from "../../src/lib/TableRenderers";
 
-export default class FundamentalsTable extends React.PureComponent {
-  static propTypes = {
-    data: PropTypes.array.isRequired
-  };
-
+class FundamentalsTable extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
 
@@ -45,6 +41,15 @@ export default class FundamentalsTable extends React.PureComponent {
     const rowGetter = ({ index }) => this._getDatum(sortedList, index);
     const rowCount = this.props.data.length;
     const sortedList = this._sortList({ sortBy, sortDirection });
+
+    const deleteRenderer = data => (
+      <button
+        onClick={() => this.props.removeHandler({ id: data.cellData })}
+        className="border-none muted"
+      >
+        <b>&times;</b>
+      </button>
+    );
 
     return (
       <WindowScroller>
@@ -146,12 +151,13 @@ export default class FundamentalsTable extends React.PureComponent {
                   width={80}
                 />
                 <Column
-                  label="Day's gain"
+                  label=""
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => rowData.quote.daysGain}
-                  dataKey="daysGain"
-                  width={110}
+                  cellDataGetter={({ rowData }) => rowData.id}
+                  cellRenderer={deleteRenderer}
+                  dataKey="delete"
+                  width={20}
                 />
               </Table>
             )}
@@ -177,3 +183,12 @@ export default class FundamentalsTable extends React.PureComponent {
     return sortedDataWithDirection;
   }
 }
+
+FundamentalsTable.defaultProps = {};
+
+FundamentalsTable.propTypes = {
+  data: PropTypes.array.isRequired,
+  removeHandler: PropTypes.func.isRequired
+};
+
+export default FundamentalsTable;

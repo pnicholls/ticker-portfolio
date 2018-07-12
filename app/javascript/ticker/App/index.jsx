@@ -21,18 +21,16 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const App = () => <div />;
-
-export function appComponent(WrappedComponent) {
-  return class extends React.Component {
-    render() {
-      return (
-        <ApolloProvider client={client}>
-          <WrappedComponent client={client} {...this.props} />
-        </ApolloProvider>
-      );
-    }
+export function appComponent() {
+  return BaseComponent => {
+    return class extends React.Component {
+      render() {
+        return (
+          <ApolloProvider client={client}>
+            <BaseComponent client={client} {...this.props} />
+          </ApolloProvider>
+        );
+      }
+    };
   };
 }
-
-export default App;

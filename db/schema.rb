@@ -34,10 +34,12 @@ ActiveRecord::Schema.define(version: 2018_07_10_013459) do
   end
 
   create_table "securities", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "symbol", null: false
+    t.string "name", default: "", null: false
+    t.string "symbol", default: "", null: false
+    t.integer "identifier", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["identifier"], name: "index_securities_on_identifier"
   end
 
 end
