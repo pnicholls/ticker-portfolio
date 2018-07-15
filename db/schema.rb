@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2018_07_10_013459) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["identifier"], name: "index_securities_on_identifier"
+    t.index ["symbol"], name: "index_securities_on_symbol"
   end
 
 end
