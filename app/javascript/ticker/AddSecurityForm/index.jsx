@@ -17,12 +17,6 @@ const GET_SECURITIES = gql`
 `;
 
 export default class AddSecurityForm extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this._handleChange = this._handleChange.bind(this);
-  }
-
   shouldComponentUpdate() {
     return false;
   }
@@ -46,6 +40,14 @@ export default class AddSecurityForm extends React.Component {
             ? "Add a security (search by name or symbol)"
             : "Loading...";
 
+          const addHandler = data => {
+            const security = _.find(securities, existingSecurity => {
+              return existingSecurity.id == data.value;
+            });
+
+            this.props.addHandler(security);
+          };
+
           return (
             <div>
               <label
@@ -57,7 +59,7 @@ export default class AddSecurityForm extends React.Component {
                   filterOptions={filterOptions}
                   options={options}
                   placeholder={placeholder}
-                  onChange={this._handleChange}
+                  onChange={addHandler}
                 />
               </label>
             </div>
@@ -65,10 +67,6 @@ export default class AddSecurityForm extends React.Component {
         }}
       </Query>
     );
-  }
-
-  _handleChange(selectedOption) {
-    this.props.addHandler({ id: selectedOption["value"] });
   }
 }
 

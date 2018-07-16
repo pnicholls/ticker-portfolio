@@ -44,8 +44,8 @@ class FundamentalsTable extends React.PureComponent {
 
     const deleteRenderer = data => (
       <button
-        onClick={() => this.props.removeHandler({ id: data.cellData })}
-        className="border-none muted"
+        onClick={() => this.props.removeHandler(data.rowData)}
+        className="border-none bg-none muted"
       >
         <b>&times;</b>
       </button>
@@ -73,7 +73,9 @@ class FundamentalsTable extends React.PureComponent {
                   label="Name"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => rowData.name}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "name", "...")
+                  }
                   cellRenderer={boldCellRenderer}
                   dataKey="name"
                   width={300}
@@ -83,7 +85,9 @@ class FundamentalsTable extends React.PureComponent {
                   label="Symbol"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => rowData.symbol}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "symbol", "...")
+                  }
                   dataKey="symbol"
                   width={110}
                 />
@@ -91,7 +95,9 @@ class FundamentalsTable extends React.PureComponent {
                   label="Last Price"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => rowData.quote.latestPrice}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "quote.latestPrice", "...")
+                  }
                   cellRenderer={priceRenderer}
                   dataKey="quote.latestPrice"
                   width={110}
@@ -100,7 +106,9 @@ class FundamentalsTable extends React.PureComponent {
                   label="Change %"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => rowData.quote.changePercent}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "quote.changePercent", "...")
+                  }
                   cellRenderer={changePercentRenderer}
                   dataKey="quote.changePercent"
                   width={110}
@@ -109,7 +117,9 @@ class FundamentalsTable extends React.PureComponent {
                   label="Market cap"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => rowData.quote.marketCap}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "quote.marketCap", "...")
+                  }
                   cellRenderer={numberRenderer}
                   dataKey="quote.marketCap"
                   width={120}
@@ -118,7 +128,9 @@ class FundamentalsTable extends React.PureComponent {
                   label="Volume"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => rowData.quote.latestVolume}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "quote.latestVolume", "...")
+                  }
                   cellRenderer={numberRenderer}
                   dataKey="quote.latestVolume"
                   width={90}
@@ -127,7 +139,9 @@ class FundamentalsTable extends React.PureComponent {
                   label="Open"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => rowData.quote.open}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "quote.open", "...")
+                  }
                   cellRenderer={priceRenderer}
                   dataKey="quote.open"
                   width={80}
@@ -136,7 +150,9 @@ class FundamentalsTable extends React.PureComponent {
                   label="High"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => rowData.quote.high}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "quote.high", "...")
+                  }
                   cellRenderer={priceRenderer}
                   dataKey="quote.high"
                   width={80}
@@ -145,7 +161,9 @@ class FundamentalsTable extends React.PureComponent {
                   label="Low"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => rowData.quote.low}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "quote.low", "...")
+                  }
                   cellRenderer={priceRenderer}
                   dataKey="quote.low"
                   width={80}

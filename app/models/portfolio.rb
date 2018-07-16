@@ -8,6 +8,10 @@ class Portfolio < ApplicationRecord
     where(default: true).first
   end
 
+  def editable
+    !default?
+  end
+
   def refresh
     securities.each(&:refresh)
   end

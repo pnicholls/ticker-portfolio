@@ -1344,6 +1344,9 @@ hr {
 .bg-repeat-y {
   background-repeat: repeat-y;
 }
+.bg-none {
+  background: none;
+}
 @media (min-width: 40em) {
   .sm-m0 {
     margin: 0;
