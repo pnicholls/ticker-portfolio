@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Mutation, Query, graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
 import { appComponent } from "../App/index";
+import numeral from "numeral";
 import _ from "lodash";
 
 function configurationForChangechangePercent(changePercent) {
@@ -20,24 +21,31 @@ function configurationForChangechangePercent(changePercent) {
   return { class: styleClass, color: color };
 }
 
-function titleForChangeChangePercent(changePercent) {
+function titleForSecurity(security) {
   let title = "Ticker home";
 
-  if (changePercent > 0) {
-    title = "The market is up";
+  if (security === undefined) {
+    return title;
   }
 
-  if (changePercent < 0) {
-    title = "The market is down";
+  const changePercent = security.quote.changePercent;
+  if (changePercent === 0) {
+    return `The ${security.name} is unchanged`;
   }
 
-  return title;
+  const direction = changePercent > 0 ? "up" : "down";
+  const change = numeral(security.quote.changePercent)
+    .format("0.00%")
+    .toUpperCase();
+
+  return `The ${security.name} is ${direction} ${change}`;
 }
 
 const Logo = props => {
+  const security = _.get(props, "data.security");
   const changePercent = _.get(props, "data.security.quote.changePercent", 0);
   const configuration = configurationForChangechangePercent(changePercent);
-  const title = titleForChangeChangePercent(changePercent);
+  const title = titleForSecurity(security);
 
   return (
     <div>
