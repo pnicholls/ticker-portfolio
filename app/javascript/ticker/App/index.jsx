@@ -83,7 +83,7 @@ const client = new ApolloClient({
   link: ApolloLink.from([
     stateLink,
     new HttpLink({
-      uri: "http://localhost:3000/graphql",
+      uri: "/graphql",
       credentials: "same-origin",
       headers: {
         "X-CSRF-Token": csrfToken
