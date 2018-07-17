@@ -5,13 +5,21 @@ import { graphql, compose } from "react-apollo";
 import { appComponent } from "../App/index";
 import {
   GET_PORTFOLIO,
+  GET_SECURITIES,
   CREATE_PORTFOLIO_SECURITY_LOCALLY,
   DESTROY_PORTFOLIO_SECURITY_LOCALLY
 } from "../../src/lib/Queries";
 
 export function portfolioQuery() {
   return graphql(GET_PORTFOLIO, {
+    name: "portfolioData",
     options: ({ id }) => ({ variables: { id } })
+  });
+}
+
+export function securitiesQuery() {
+  return graphql(GET_SECURITIES, {
+    name: "securitiesData"
   });
 }
 
@@ -41,20 +49,25 @@ export function portfolioDataSource() {
   return BaseComponent => {
     return class extends React.Component {
       render() {
-        const loading = _.get(this.props, "data.loading", false);
-        const name = _.get(this.props, "data.portfolio.name", "-");
-        const securities = _.get(this.props, "data.portfolio.securities", []);
+        const loading = _.get(this.props, "portfolioData.loading", false);
+        const name = _.get(this.props, "portfolioData.portfolio.name", "-");
+        const portfolioSecurities = _.get(
+          this.props,
+          "portfolioData.portfolio.securities",
+          []
+        );
+        const securities = _.get(this.props, "securitiesData.securities", []);
         const addHandler = security => {
           return createPortfolioSecurity(
             this.props.client,
-            this.props.data.portfolio,
+            this.props.portfolioData.portfolio,
             security
           );
         };
         const removeHandler = security => {
           return destroyPortfolioSecurity(
             this.props.client,
-            this.props.data.portfolio,
+            this.props.portfolioData.portfolio,
             security
           );
         };
@@ -63,6 +76,7 @@ export function portfolioDataSource() {
           <BaseComponent
             loading={loading}
             name={name}
+            portfolioSecurities={portfolioSecurities}
             securities={securities}
             persisted={true}
             addHandler={addHandler}

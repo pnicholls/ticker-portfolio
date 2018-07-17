@@ -34,24 +34,39 @@ class Quote
   end
 
   def refresh
-    FetchSecurityQuoteJob.perform_later(security) unless Rails.cache.read(cache_key)
+    return unless refresh_at.nil? || (refresh_at && (refresh_at < Time.current))
+
+    Rails.cache.write(refresh_at_key, 3.minutes.from_now)
+    FetchSecurityQuoteJob.perform_later(security)
   end
 
   def fetch
-    Rails.cache.fetch(cache_key, expires_in: 5.minutes) do
-      uri = URI("https://api.iextrading.com/1.0/stock/#{security.symbol}/quote")
-      response = Net::HTTP.get(uri)
-      JSON.parse(response)
-    end
+    uri = URI("https://api.iextrading.com/1.0/stock/#{security.symbol}/quote")
+    response = Net::HTTP.get(uri)
+    json = JSON.parse(response)
+
+    cache_data(json)
   end
 
   private
 
   def data
-    Rails.cache.fetch(cache_key) || {}
+    Rails.cache.read(cache_key) || {}
+  end
+
+  def cache_data(value)
+    Rails.cache.write(cache_key, value, expires_in: 5.minutes)
+  end
+
+  def refresh_at
+    Rails.cache.read(refresh_at_key) || nil
   end
 
   def cache_key
     "stock/#{security.symbol}/quote"
+  end
+
+  def refresh_at_key
+    "stock/#{security.symbol}/quote/refresh_at"
   end
 end

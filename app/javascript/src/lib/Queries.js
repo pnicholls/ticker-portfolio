@@ -16,6 +16,16 @@ export const GET_PORTFOLIO = gql`
   }
 `;
 
+export const GET_SECURITIES = gql`
+  query Securities {
+    securities {
+      id
+      symbol
+      name
+    }
+  }
+`;
+
 export const CREATE_PORTFOLIO_SECURITY_LOCALLY = gql`
   mutation createPortfolioSecurity(
     $portfolio: PortfolioType!

@@ -4,6 +4,7 @@ import { compose } from "react-apollo";
 import { appComponent } from "../App/index";
 import {
   portfolioQuery,
+  securitiesQuery,
   portfolioDataSource
 } from "../PortfolioDataSource/index";
 import PortfolioHeader from "../PortfolioHeader/index";
@@ -22,7 +23,8 @@ const Portfolio = props => {
           persisted={props.persisted}
         />
         <Fundamentals
-          data={props.securities}
+          portfolioSecurities={props.portfolioSecurities}
+          securities={props.securities}
           addHandler={props.addHandler}
           removeHandler={props.removeHandler}
         />
@@ -36,6 +38,7 @@ Portfolio.defaultProps = {};
 Portfolio.propTypes = {
   loading: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
+  portfolioSecurities: PropTypes.array.isRequired,
   securities: PropTypes.array.isRequired,
   persisted: PropTypes.bool.isRequired,
   addHandler: PropTypes.func.isRequired,
@@ -45,6 +48,7 @@ Portfolio.propTypes = {
 const enhancedPortfolio = compose(
   appComponent(),
   portfolioQuery(),
+  securitiesQuery(),
   portfolioDataSource()
 )(Portfolio);
 

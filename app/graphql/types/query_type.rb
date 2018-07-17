@@ -25,11 +25,24 @@ class Types::QueryType < Types::BaseObject
 
   field :securities, [Types::SecurityType], null: true do
     description 'Returns a collection of securities'
+    argument :id, [ID], required: false
   end
 
-  def securities
-    query = Security.order(:symbol)
+  def securities(*args)
+    return all_securities if args.fetch(0, {}).empty?
 
+    ids = args.fetch(0, {}).fetch(:id, nil)
+    if ids.present?
+      securities = Security.order(:symbol).where(id: ids)
+      securities.each { |security| security.refresh }
+      securities
+    end
+  end
+
+  private
+
+  def all_securities
+    query = Security.order(:symbol)
     Rails.cache.fetch(query.cache_key) do
       query
     end
