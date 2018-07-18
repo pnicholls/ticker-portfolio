@@ -7,7 +7,7 @@ import numeral from "numeral";
 import _ from "lodash";
 
 function configurationForChangechangePercent(changePercent) {
-  const styleClass = changePercent === 0 ? "muted" : "";
+  const styleClass = changePercent === null ? "muted" : "";
 
   let color = "black";
   if (changePercent > 0) {
@@ -24,7 +24,7 @@ function configurationForChangechangePercent(changePercent) {
 function titleForSecurity(security) {
   let title = "Ticker home";
 
-  if (security === undefined) {
+  if (security === null) {
     return title;
   }
 
@@ -42,10 +42,14 @@ function titleForSecurity(security) {
 }
 
 const Logo = props => {
-  const security = _.get(props, "data.security");
-  const changePercent = _.get(props, "data.security.quote.changePercent", 0);
+  const security = _.get(props, "data.security", null);
+  const changePercent = _.get(props, "data.security.quote.changePercent", null);
   const configuration = configurationForChangechangePercent(changePercent);
   const title = titleForSecurity(security);
+
+  if (changePercent === null) {
+    props.data.startPolling(1000 * 30);
+  }
 
   return (
     <div>
@@ -97,9 +101,9 @@ const GET_SECURITY = gql`
 const enhancedLogo = compose(
   appComponent(),
   graphql(GET_SECURITY, {
-    options: ({ symbol }) => ({
-      variables: { symbol },
-      pollInterval: 1000 * 60 * 1
+    options: props => ({
+      variables: { symbol: props.symbol },
+      pollInterval: 1000 * 0.5
     })
   })
 )(Logo);
