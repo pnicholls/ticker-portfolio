@@ -17,7 +17,7 @@ const cache = new InMemoryCache();
 
 const stateLink = withClientState({
   cache,
-  defaults: {},
+  defaults: { persisted: true },
   resolvers: {
     Mutation: {
       createPortfolioSecurity: (unknown, variables, { cache, getCacheKey }) => {
@@ -29,8 +29,8 @@ const stateLink = withClientState({
         const updatedPortfolio = {
           id: cachedData.portfolio.id,
           name: cachedData.portfolio.name,
-          default: cachedData.portfolio.default,
           editable: cachedData.portfolio.editable,
+          persisted: cachedData.portfolio.editable,
           __typename: cachedData.portfolio.__typename,
           securities: _.concat(cachedData.portfolio.securities, [
             variables.security
@@ -57,8 +57,8 @@ const stateLink = withClientState({
         const updatedPortfolio = {
           id: cachedData.portfolio.id,
           name: cachedData.portfolio.name,
-          default: cachedData.portfolio.default,
           editable: cachedData.portfolio.editable,
+          persisted: cachedData.portfolio.editable,
           __typename: cachedData.portfolio.__typename,
           securities: _.reject(
             cachedData.portfolio.securities,

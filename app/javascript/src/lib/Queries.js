@@ -5,8 +5,8 @@ export const GET_PORTFOLIO = gql`
     portfolio(id: $id) {
       id
       name
-      default
       editable
+      persisted @client
       securities {
         id
         symbol

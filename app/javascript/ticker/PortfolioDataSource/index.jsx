@@ -51,6 +51,11 @@ export function portfolioDataSource() {
       render() {
         const loading = _.get(this.props, "portfolioData.loading", false);
         const name = _.get(this.props, "portfolioData.portfolio.name", "-");
+        const persisted = _.get(
+          this.props,
+          "portfolioData.portfolio.persisted",
+          true
+        );
         const portfolioSecurities = _.get(
           this.props,
           "portfolioData.portfolio.securities",
@@ -78,7 +83,7 @@ export function portfolioDataSource() {
             name={name}
             portfolioSecurities={portfolioSecurities}
             securities={securities}
-            persisted={true}
+            persisted={persisted}
             addHandler={addHandler}
             removeHandler={removeHandler}
           />
