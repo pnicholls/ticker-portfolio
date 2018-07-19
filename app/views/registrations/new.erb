@@ -1,0 +1,50 @@
+<%= tag.div class: 'table-cell align-middle' do %>
+  <%= tag.div class: 'border rounded bg-white mb2' do %>
+    <%= tag.header class: 'border-box col-12 center' do %>
+      <%= tag.div class: 'logo-container mt3', data: { height: 50, width: 50 } %>
+    <% end %>
+
+    <%= tag.div class: 'p2 md-p3' do %>
+      <%= render partial: 'shared/flashes' %>
+
+      <%= form_with model: @account, url: registration_path, local: true do |f| %>
+        <%= f.fields_for :person_attributes, @account.person do |p| %>
+          <%= tag.dl class: form_group(@account.person, :name) do %>
+            <%= tag.dd do %>
+              <%= p.text_field :name, autofocus: true, class: 'block col-12 field rounded-top y-group-item', placeholder: 'Your full name' %>
+            <% end %>
+
+            <%= tag.dd @account.person.errors.messages[:name].to_sentence, class: 'error' %>
+          <% end %>
+        <% end %>
+
+        <%= tag.dl class: form_group(@account, :email) do %>
+          <%= tag.dd do %>
+            <%= f.text_field :email, class: 'block col-12 field rounded-top y-group-item', placeholder: 'you@example.com' %>
+          <% end %>
+
+          <%= tag.dd @account.errors.messages[:email].to_sentence, class: 'error' %>
+        <% end %>
+
+        <%= tag.dl class: form_group(@account, :password) do %>
+          <%= tag.dd do %>
+            <%= f.password_field :password, class: 'block col-12 field rounded-top y-group-item', placeholder: 'Create a password' %>
+          <% end %>
+
+          <%= tag.dd @account.errors.messages[:password].to_sentence, class: 'error' %>
+        <% end %>
+
+        <%= tag.div class: 'pt2' do %>
+          <%= f.submit 'Sign Up', class: 'btn btn-primary btn-big col-12 mb1' %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= tag.div class: 'mb-3 p2 mb2 rounded border center' do %>
+    <%= link_to 'Log in', new_session_path %>
+  <% end %>
+<% end %>
+
+
+<%= javascript_pack_tag 'logo' %>

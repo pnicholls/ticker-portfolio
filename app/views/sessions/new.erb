@@ -1,0 +1,37 @@
+<%= tag.div class: 'table-cell align-middle' do %>
+  <%= tag.div class: 'border rounded bg-white mb2' do %>
+    <%= tag.header class: 'border-box col-12 center' do %>
+      <%= tag.div class: 'logo-container mt3', data: { height: 50, width: 50 } %>
+    <% end %>
+
+    <%= tag.div class: 'p2 md-p3' do %>
+      <%= render partial: 'shared/flashes' %>
+
+      <%= form_with url: session_path, scope: :account, local: true, class: 'session' do |f| %>
+        <%= tag.dl class: 'form-group' do %>
+          <%= tag.dd do %>
+            <%= f.text_field :email, autofocus: true, class: 'block col-12 field rounded-top y-group-item', placeholder: 'Email address' %>
+          <% end %>
+        <% end %>
+
+        <%= tag.dl class: 'form-group' do %>
+          <%= tag.dd do %>
+            <%= f.password_field :password, class: 'block col-12 field rounded-top y-group-item', placeholder: 'Password' %>
+          <% end %>
+        <% end %>
+
+        <%= tag.div class: 'pt2' do %>
+            <%= f.submit 'Log In', class: 'btn btn-primary btn-big col-12 mb1' %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= tag.div class: 'mb-3 p2 mb2 rounded border center' do %>
+    <%= link_to 'Create an account', new_registration_path %>
+  <% end %>
+<% end %>
+
+
+
+<%= javascript_pack_tag 'logo' %>

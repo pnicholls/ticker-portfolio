@@ -26,9 +26,19 @@
               <% end %>
 
               <%= tag.div do %>
-                <%= link_to nil, class: 'mb0 nowrap black bold blue-on-hover border-box no-underline-on-hover nav-btn--account js-account-button' do %>
-                  <%= tag.div do %>
-                  <%= tag.p 'Log in', class: 'h5 align-middle inline-block no-underline-on-hover black blue-on-hover mt0', style: 'margin-top: 20px;' %>
+                <% if current_account %>
+                  <%= link_to session_path, method: :delete, class: 'mb0 nowrap black bold blue-on-hover border-box no-underline-on-hover nav-btn--account js-account-button' do %>
+                    <%= tag.div do %>
+                      <%= tag.p 'Log out', class: 'h5 align-middle inline-block no-underline-on-hover black blue-on-hover mt0', style: 'margin-top: 20px;', title: "Log out" %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+
+                <% unless current_account %>
+                  <%= link_to new_session_path, class: 'mb0 nowrap black bold blue-on-hover border-box no-underline-on-hover nav-btn--account js-account-button' do %>
+                    <%= tag.div do %>
+                      <%= tag.p 'Log in', class: 'h5 align-middle inline-block no-underline-on-hover black blue-on-hover mt0', style: 'margin-top: 20px;' %>
+                    <% end %>
                   <% end %>
                 <% end %>
               <% end %>

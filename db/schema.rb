@@ -10,10 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_10_013459) do
+ActiveRecord::Schema.define(version: 2018_07_19_225250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "password_digest", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_accounts_on_email"
+  end
+
+  create_table "people", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_people_on_account_id"
+  end
 
   create_table "portfolio_securities", force: :cascade do |t|
     t.bigint "portfolio_id", null: false

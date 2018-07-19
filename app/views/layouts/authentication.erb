@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ticker</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_pack_tag 'style', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= tag.div do %>
+      <%= tag.section class: 'container small-container md-p3 border-box table col-12 height-100vh' do %>
+        <%= yield %>
+      <% end %>
+    <% end %>
+  </body>
+</html>
+
+<%= javascript_pack_tag 'logo' %>
