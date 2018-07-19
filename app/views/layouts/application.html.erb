@@ -15,7 +15,23 @@
         <%= tag.header class: 'shadow-small' do %>
           <%= tag.div class: 'container border-box clearfix px3' do %>
             <%= tag.div class: 'flex flex-justify-content' do %>
-              <%= tag.div class: 'logo-container' %>
+              <%= tag.div do %>
+                <%= tag.span class: 'logo-container', data: { height: 28, width: 28 } %>
+                <%= link_to root_path, class: 'h5 align-middle inline-block no-underline-on-hover black blue-on-hover logo-text', title: 'Ticker home' do %>
+                  <%= tag.p class: 'mb0 mt0 align-middle sm-show nowrap' do %>
+                    <%= tag.b 'Ticker' %>
+                    App
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <%= tag.div do %>
+                <%= link_to nil, class: 'mb0 nowrap black bold blue-on-hover border-box no-underline-on-hover nav-btn--account js-account-button' do %>
+                  <%= tag.div do %>
+                  <%= tag.p 'Log in', class: 'h5 align-middle inline-block no-underline-on-hover black blue-on-hover mt0', style: 'margin-top: 20px;' %>
+                  <% end %>
+                <% end %>
+              <% end %>
             <% end %>
           <% end %>
         <% end %>

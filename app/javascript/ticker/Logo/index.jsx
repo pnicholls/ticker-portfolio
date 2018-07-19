@@ -52,37 +52,35 @@ const Logo = props => {
   }
 
   return (
-    <div>
-      <a
-        href="/"
-        className={`logo block border-box left relative z1 bg-clip-content ${
-          configuration.class
-        } fill-${configuration.color} bg-${configuration.color}`}
+    <a
+      href="/"
+      className={`logo ${configuration.class} fill-${configuration.color} bg-${
+        configuration.color
+      }`}
+    >
+      <svg
+        className="align-middle"
+        viewBox="0 0 5 5"
+        width={props.width}
+        height={props.height}
       >
-        <svg className="align-middle" viewBox="0 0 5 5" width={28} height={28}>
-          <title>{title}</title>
-          <path d="M0,0v5h5V0z M1,1h3v3H2V3H1z" />
-        </svg>
-      </a>
-      <a
-        href="/"
-        className="h5 align-middle inline-block no-underline-on-hover black blue-on-hover logo-text"
-        title="Ticker home"
-      >
-        <p className="mb0 mt0 align-middle sm-show nowrap">
-          <b>Ticker</b> App
-        </p>
-      </a>
-    </div>
+        <title>{title}</title>
+        <path d="M0,0v5h5V0z M1,1h3v3H2V3H1z" />
+      </svg>
+    </a>
   );
 };
 
 Logo.defaultProps = {
-  symbol: "DIA"
+  symbol: "DIA",
+  height: 28,
+  width: 28
 };
 
 Logo.propTypes = {
-  symbol: PropTypes.string.isRequired
+  symbol: PropTypes.string.isRequired,
+  height: PropTypes.number,
+  width: PropTypes.number
 };
 
 const GET_SECURITY = gql`
