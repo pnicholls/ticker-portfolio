@@ -47,7 +47,7 @@ const Logo = props => {
   const configuration = configurationForChangechangePercent(changePercent);
   const title = titleForSecurity(security);
 
-  if (changePercent === null) {
+  if (changePercent !== null) {
     props.data.startPolling(1000 * 30);
   }
 
