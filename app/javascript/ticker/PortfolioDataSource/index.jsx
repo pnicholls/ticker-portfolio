@@ -7,7 +7,9 @@ import {
   GET_PORTFOLIO,
   GET_SECURITIES,
   CREATE_PORTFOLIO_SECURITY_LOCALLY,
-  DESTROY_PORTFOLIO_SECURITY_LOCALLY
+  CREATE_PORTFOLIO_SECURITY_REMOTELY,
+  DESTROY_PORTFOLIO_SECURITY_LOCALLY,
+  DESTROY_PORTFOLIO_SECURITY_REMOTELY
 } from "../../src/lib/Queries";
 
 export function portfolioQuery() {
@@ -25,7 +27,10 @@ export function securitiesQuery() {
 
 function createPortfolioSecurity(client, portfolio, security) {
   if (portfolio.editable) {
-    console.log("editable!");
+    client.mutate({
+      variables: { portfolioID: portfolio.id, securityID: security.id },
+      mutation: CREATE_PORTFOLIO_SECURITY_REMOTELY
+    });
   } else {
     client.mutate({
       variables: { portfolio: portfolio, security: security },
@@ -36,7 +41,10 @@ function createPortfolioSecurity(client, portfolio, security) {
 
 function destroyPortfolioSecurity(client, portfolio, security) {
   if (portfolio.editable) {
-    console.log("editable!");
+    client.mutate({
+      variables: { portfolioID: portfolio.id, securityID: security.id },
+      mutation: DESTROY_PORTFOLIO_SECURITY_REMOTELY
+    });
   } else {
     client.mutate({
       variables: { portfolio: portfolio, security: security },
