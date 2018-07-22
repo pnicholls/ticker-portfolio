@@ -1,3 +1,7 @@
-default:
+marketing:
   name: Portfolio
-  default: true
+  account: marketing
+
+peter_nicholls:
+  name: Portfolio
+  account: peter_nicholls

@@ -1,31 +1,31 @@
-default_facebook:
-  portfolio: default
+marketing_facebook:
+  portfolio: marketing
   security: facebook
 
-default_apple:
-  portfolio: default
+marketing_apple:
+  portfolio: marketing
   security: apple
 
-default_alphabet:
-  portfolio: default
+marketing_alphabet:
+  portfolio: marketing
   security: alphabet
 
-default_netflix:
-  portfolio: default
+marketing_netflix:
+  portfolio: marketing
   security: netflix
 
-default_berkshire:
-  portfolio: default
+marketing_berkshire:
+  portfolio: marketing
   security: berkshire
 
-default_tesla:
-  portfolio: default
+marketing_tesla:
+  portfolio: marketing
   security: tesla
 
-default_amazon:
-  portfolio: default
+marketing_amazon:
+  portfolio: marketing
   security: amazon
 
-default_daily_journal:
-  portfolio: default
+marketing_daily_journal:
+  portfolio: marketing
   security: daily_journal

@@ -1,3 +1,7 @@
+marketing:
+  email: marketing@tickerapp.com
+  password_digest: <%= BCrypt::Password.create('password', cost: 4) %>
+
 peter_nicholls:
   email: peterwnicholls@gmail.com
   password_digest: <%= BCrypt::Password.create('password', cost: 4) %>

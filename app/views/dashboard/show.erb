@@ -1,0 +1,6 @@
+<%= tag.div class: 'bg-none mb2 md-mb2' do %>
+  <%= tag.div class: 'container px3 clearfix border-box' %>
+<% end %>
+
+<%= tag.div class: 'portfolio', data: { 'id' => @portfolio.id } %>
+<%= javascript_pack_tag 'portfolio' %>
