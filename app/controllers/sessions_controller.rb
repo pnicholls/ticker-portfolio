@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     end
 
     if signed_in?
-      redirect_to dashboard_path
+      redirect_to root_path
     else
       flash.now[:error] = 'Incorrect email or password.'
       render :new

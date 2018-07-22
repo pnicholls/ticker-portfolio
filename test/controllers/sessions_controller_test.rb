@@ -5,7 +5,7 @@ class SessionsControllerTest < ApplicationIntegrationTestCase
     account = accounts(:peter_nicholls)
 
     post session_path, params: { account: { email: account.email, password: 'password' } }
-    assert_redirected_to dashboard_path
+    assert_redirected_to root_path
 
     follow_redirect!
     assert_select 'a', /Log out/
