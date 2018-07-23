@@ -13,4 +13,12 @@ class AccountTest < ActiveSupport::TestCase
 
     assert_equal ['Portfolio'], account.portfolios.pluck(:name)
   end
+
+  test 'can edit?' do
+    account = accounts(:marketing)
+    other_account = accounts(:peter_nicholls)
+
+    assert_equal true, account.can_edit?(account.portfolios.first)
+    assert_equal false, other_account.can_edit?(account.portfolios.first)
+  end
 end

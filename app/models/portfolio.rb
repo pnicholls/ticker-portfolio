@@ -8,14 +8,6 @@ class Portfolio < ApplicationRecord
 
   scope :order_by_name, -> { order(:name) }
 
-  def self.default
-    where(default: true).first
-  end
-
-  def editable
-    !default?
-  end
-
   def refresh
     securities.each(&:refresh)
   end

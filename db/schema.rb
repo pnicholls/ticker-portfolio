@@ -43,12 +43,10 @@ ActiveRecord::Schema.define(version: 2018_07_19_225250) do
 
   create_table "portfolios", force: :cascade do |t|
     t.string "name", null: false
-    t.boolean "default", default: false, null: false
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_portfolios_on_account_id"
-    t.index ["default"], name: "index_portfolios_on_default"
   end
 
   create_table "securities", force: :cascade do |t|

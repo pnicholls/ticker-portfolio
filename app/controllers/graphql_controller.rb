@@ -1,13 +1,14 @@
 class GraphqlController < ApplicationController
-  skip_before_action :authenticate
-  
+  skip_before_action :authenticate!
+
+  before_action :authenticate
+
   def execute
     variables = ensure_hash(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
     context = {
-      # Query context goes here, for example:
-      # current_user: current_user,
+      current_account: current_account,
     }
     result = TickerSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result

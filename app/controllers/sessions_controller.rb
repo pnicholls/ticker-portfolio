@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   before_action :sign_out, only: %i(new)
-  skip_before_action :authenticate, only: %i(new create)
+  skip_before_action :authenticate!, only: %i(new create)
 
   layout 'authentication'
 

@@ -13,6 +13,10 @@ class Account < ApplicationRecord
     with: /\A[^@\s]+@[^@\s]+\z/, allow_blank: true
   }
 
+  def can_edit?(portfolio)
+    portfolio.account == self
+  end
+
   private
 
   def create_portfolio

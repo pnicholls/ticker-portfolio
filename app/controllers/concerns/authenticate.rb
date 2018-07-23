@@ -4,17 +4,21 @@ module Authenticate
   included do
     include ByCookie
 
-    before_action :authenticate
+    before_action :authenticate!
   end
 
   private
 
-  def authenticate
+  def authenticate!
     if authenticate_with_cookies
       # Great! You're in
     elsif !performed?
       request_cookie_authentication
     end
+  end
+
+  def authenticate
+    authenticate_with_cookies
   end
 
   def authenticated(account, by:)
