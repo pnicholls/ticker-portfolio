@@ -8,6 +8,7 @@ class RegistrationsController < ApplicationController
   def new
     @account = Account.new
     @account.build_person
+    @account.portfolios.build(name: 'Portfolio', security_ids: params[:securities])
   end
 
   def create
@@ -25,7 +26,19 @@ class RegistrationsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:account).permit(:email, :password, person_attributes: [:name])
+    params.require(:account).permit(
+      :email,
+      :password,
+      person_attributes: [
+        :name,
+      ],
+      portfolios_attributes: [
+        :name,
+        portfolio_securities_attributes: [
+          :security_id,
+        ],
+      ],
+    )
   end
 
   def ensure_not_authenticated

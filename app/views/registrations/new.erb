@@ -8,7 +8,7 @@
       <%= render partial: 'shared/flashes' %>
 
       <%= form_with model: @account, url: registration_path, local: true do |f| %>
-        <%= f.fields_for :person_attributes, @account.person do |p| %>
+        <%= f.fields_for :person do |p| %>
           <%= tag.dl class: form_group(@account.person, :name) do %>
             <%= tag.dd do %>
               <%= p.text_field :name, autofocus: true, class: 'block col-12 field rounded-top y-group-item', placeholder: 'Your full name' %>
@@ -32,6 +32,14 @@
           <% end %>
 
           <%= tag.dd @account.errors.messages[:password].to_sentence, class: 'error' %>
+        <% end %>
+
+        <%= f.fields_for :portfolios do |p| %>
+          <%= p.hidden_field :name %>
+
+          <%= p.fields_for :portfolio_securities do |security| %>
+            <%= security.hidden_field :security_id %>
+          <% end %>
         <% end %>
 
         <%= tag.div class: 'pt2' do %>

@@ -11,6 +11,14 @@ import PortfolioHeader from "../PortfolioHeader/index";
 import Fundamentals from "../Fundamentals/index";
 
 const Portfolio = props => {
+  const saveHandler = () => {
+    const securities = props.portfolioSecurities.map(
+      security => `securities[]=${security.id}`
+    );
+    const parameters = securities.join("&");
+    window.location = `/registration/new?${parameters}`;
+  };
+
   return (
     <div className="container">
       <div
@@ -21,6 +29,7 @@ const Portfolio = props => {
           loading={props.loading}
           name={props.name}
           persisted={props.persisted}
+          saveHandler={saveHandler}
         />
         <Fundamentals
           portfolioSecurities={props.portfolioSecurities}

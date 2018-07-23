@@ -2,6 +2,8 @@ require 'test_helper'
 
 class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test 'registering a new account' do
+    security = securities(:berkshire)
+
     post registration_path, params: {
       account: {
         person_attributes: {
@@ -9,6 +11,12 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
         },
         email: 'new@account.com',
         password: 'password',
+        portfolios_attributes: [
+          name: 'Portfolio',
+          portfolio_securities_attributes: [
+            security_id: security.id,
+          ],
+        ],
       },
     }
 

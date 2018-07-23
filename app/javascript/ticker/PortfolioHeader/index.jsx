@@ -7,7 +7,10 @@ function SaveButton(props) {
   }
 
   return (
-    <button className="h6 btn btn-small btn-outline  blue bg-light-silver-on-hover right">
+    <button
+      className="h6 btn btn-small btn-outline blue bg-light-silver-on-hover right"
+      onClick={props.saveHandler}
+    >
       Save Portfolio
     </button>
   );
@@ -17,7 +20,10 @@ const PortfolioHeader = props => (
   <section className="mnx1">
     <div className="container border-box px3 mt0 mb1">
       <div className="pt3 inline-block col-12 align-top">
-        <SaveButton persisted={props.persisted} />
+        <SaveButton
+          persisted={props.persisted}
+          saveHandler={props.saveHandler}
+        />
         <h1 className="h3 mt0 mb1 regular">
           <b>{props.name}</b>
         </h1>
@@ -35,7 +41,8 @@ PortfolioHeader.defaultProps = {};
 
 PortfolioHeader.propTypes = {
   loading: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  saveHandler: PropTypes.func.isRequired
 };
 
 export default PortfolioHeader;
