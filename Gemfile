@@ -28,7 +28,10 @@ gem 'redis', '~> 4.0'
 gem 'sidekiq', '~> 5.1'
 
 # Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1'
+
+# Mixpanel ruby library
+gem 'mixpanel-ruby', '~> 2.2'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

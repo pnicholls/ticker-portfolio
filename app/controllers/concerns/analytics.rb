@@ -4,6 +4,6 @@ module Analytics
   extend ActiveSupport::Concern
 
   included do
-    include Analytics::Intercom
+    include Analytics::Mixpanel
   end
 end

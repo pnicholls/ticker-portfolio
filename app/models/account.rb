@@ -1,5 +1,5 @@
 class Account < ApplicationRecord
-  include Analytics
+  include Accounts::Intercom
 
   has_one :person
 

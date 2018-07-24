@@ -16,6 +16,8 @@ class RegistrationsController < ApplicationController
 
     if @account.save
       sign_in(@account)
+      track_account_creation(@account)
+      track_person(@account.person)
       redirect_to root_path
     else
       flash.now[:error] = 'There were problems creating your account.'

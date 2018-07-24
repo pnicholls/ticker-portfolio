@@ -11,6 +11,7 @@ class SessionsController < ApplicationController
     end
 
     if signed_in?
+      track_login(account)
       redirect_to root_path
     else
       flash.now[:error] = 'Incorrect email or password.'
@@ -19,6 +20,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    track_logout(current_account)
     sign_out
 
     respond_to do |format|

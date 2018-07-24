@@ -1,6 +1,6 @@
 require 'active_support/concern'
 
-module Analytics::Intercom
+module Accounts::Intercom
   extend ActiveSupport::Concern
 
   included do
