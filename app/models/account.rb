@@ -1,4 +1,6 @@
 class Account < ApplicationRecord
+  include Analytics
+
   has_one :person
 
   has_many :portfolios
