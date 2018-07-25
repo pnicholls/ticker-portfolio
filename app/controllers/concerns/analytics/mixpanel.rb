@@ -53,10 +53,11 @@ module Analytics::Mixpanel
   def default_properties
     properties = {}
     properties.merge!(referring_properties) if referring_properties
+    properties
   end
 
   def referring_properties
-    return unless mixpanel_cookie.present?
+    return {} unless mixpanel_cookie.present?
 
     {
       '$initial_referring_domain' => mixpanel_cookie.fetch('$initial_referring_domain', nil),
