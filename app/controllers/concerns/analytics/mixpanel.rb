@@ -49,7 +49,7 @@ module Analytics::Mixpanel
   end
 
   def ip
-    request.remote_ip
+    request.headers.fetch('HTTP_X_FORWARDED_FOR', '').split(',').first
   end
 
   def default_properties
