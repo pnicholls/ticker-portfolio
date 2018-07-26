@@ -4,6 +4,7 @@ class Account < ApplicationRecord
   has_one :person
 
   has_many :portfolios
+  has_many :securities, through: :portfolios
 
   has_secure_password
 
@@ -16,5 +17,9 @@ class Account < ApplicationRecord
 
   def can_edit?(portfolio)
     portfolio.account == self
+  end
+
+  def marketing?
+    email == 'marketing@tickerapp.com'
   end
 end

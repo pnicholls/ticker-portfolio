@@ -31,6 +31,7 @@ const stateLink = withClientState({
           name: cachedData.portfolio.name,
           editable: cachedData.portfolio.editable,
           persisted: cachedData.portfolio.editable,
+          marketing: cachedData.portfolio.marketing,
           __typename: cachedData.portfolio.__typename,
           securities: _.concat(cachedData.portfolio.securities, [
             variables.security
@@ -59,6 +60,7 @@ const stateLink = withClientState({
           name: cachedData.portfolio.name,
           editable: cachedData.portfolio.editable,
           persisted: cachedData.portfolio.editable,
+          marketing: cachedData.portfolio.marketing,
           __typename: cachedData.portfolio.__typename,
           securities: _.reject(
             cachedData.portfolio.securities,

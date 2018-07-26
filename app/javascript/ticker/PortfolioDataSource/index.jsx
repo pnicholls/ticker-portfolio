@@ -15,7 +15,7 @@ import {
 export function portfolioQuery() {
   return graphql(GET_PORTFOLIO, {
     name: "portfolioData",
-    options: ({ id }) => ({ variables: { id } })
+    options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
   });
 }
 
@@ -64,6 +64,11 @@ export function portfolioDataSource() {
           "portfolioData.portfolio.persisted",
           true
         );
+        const marketing = _.get(
+          this.props,
+          "portfolioData.portfolio.marketing",
+          null
+        );
         const portfolioSecurities = _.get(
           this.props,
           "portfolioData.portfolio.securities",
@@ -71,6 +76,13 @@ export function portfolioDataSource() {
         );
         const securities = _.get(this.props, "securitiesData.securities", []);
         const addHandler = security => {
+          mixpanel.track("Added a Security", {
+            "Portfolio ID": this.props.portfolioData.portfolio.id,
+            Portfolio: this.props.portfolioData.portfolio.name,
+            "Security ID": security.id,
+            Security: security.name
+          });
+
           return createPortfolioSecurity(
             this.props.client,
             this.props.portfolioData.portfolio,
@@ -78,6 +90,13 @@ export function portfolioDataSource() {
           );
         };
         const removeHandler = security => {
+          mixpanel.track("Removed a Security", {
+            "Portfolio ID": this.props.portfolioData.portfolio.id,
+            Portfolio: this.props.portfolioData.portfolio.name,
+            "Security ID": security.id,
+            Security: security.name
+          });
+
           return destroyPortfolioSecurity(
             this.props.client,
             this.props.portfolioData.portfolio,
@@ -92,6 +111,7 @@ export function portfolioDataSource() {
             portfolioSecurities={portfolioSecurities}
             securities={securities}
             persisted={persisted}
+            marketing={marketing}
             addHandler={addHandler}
             removeHandler={removeHandler}
           />

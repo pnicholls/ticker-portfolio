@@ -5,6 +5,8 @@ class Security < ApplicationRecord
   delegate :refresh, to: :quote
   delegate :fetch, to: :quote
 
+  scope :order_by_name, -> { order(:name) }
+
   def quote
     @quote ||= Quote.new(self)
   end

@@ -5,8 +5,11 @@ module Analytics::Mixpanel
 
   included do
     def track_account_creation(account)
-      MixpanelJob.perform_later('alias', alias_id, account.id) if alias_id
-      MixpanelJob.perform_later('track', account.id, 'Created an Account', default_properties, ip)
+      properties = default_properties
+      properties['Securities'] = account.securities.order_by_name.pluck(:name).join(', ')
+      properties['Securities Count'] = account.securities.count
+      MixpanelJob.perform_later('track', alias_id, 'Created an Account', properties, ip)
+      MixpanelJob.perform_later('alias', account.id, alias_id)
     end
 
     def track_person(person)
@@ -14,7 +17,6 @@ module Analytics::Mixpanel
         '$email' => person.account.email,
         '$name' => person.name,
         '$created' => person.account.created_at.to_s,
-        '$ip' => ip,
       }
 
       MixpanelJob.perform_later('people_set', person.account.id, attributes, ip)

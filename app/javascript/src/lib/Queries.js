@@ -6,6 +6,7 @@ export const GET_PORTFOLIO = gql`
       id
       name
       editable
+      marketing
       persisted @client
       securities {
         id
@@ -45,6 +46,7 @@ export const CREATE_PORTFOLIO_SECURITY_REMOTELY = gql`
         id
         name
         editable
+        marketing
         securities {
           id
           symbol
@@ -79,6 +81,7 @@ export const DESTROY_PORTFOLIO_SECURITY_REMOTELY = gql`
         id
         name
         editable
+        marketing
         securities {
           id
           symbol

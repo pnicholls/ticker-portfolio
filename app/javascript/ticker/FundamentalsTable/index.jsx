@@ -191,6 +191,12 @@ class FundamentalsTable extends React.PureComponent {
 
   _sort({ sortBy, sortDirection }) {
     this.setState({ sortBy, sortDirection });
+
+    mixpanel.track("Sorted Table", {
+      "Sort By": sortBy,
+      "Sort Direction": sortDirection,
+      Table: "Fundamentals"
+    });
   }
 
   _sortList({ sortBy, sortDirection }) {
