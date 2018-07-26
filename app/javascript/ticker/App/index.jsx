@@ -26,6 +26,11 @@ const stateLink = withClientState({
           variables: { id: variables.portfolio.id }
         });
 
+        const updatedSecurities = _(cachedData.portfolio.securities)
+          .concat([variables.security])
+          .uniqBy("id")
+          .value();
+
         const updatedPortfolio = {
           id: cachedData.portfolio.id,
           name: cachedData.portfolio.name,
@@ -33,9 +38,7 @@ const stateLink = withClientState({
           persisted: cachedData.portfolio.editable,
           marketing: cachedData.portfolio.marketing,
           __typename: cachedData.portfolio.__typename,
-          securities: _.concat(cachedData.portfolio.securities, [
-            variables.security
-          ])
+          securities: updatedSecurities
         };
 
         cache.writeQuery({
