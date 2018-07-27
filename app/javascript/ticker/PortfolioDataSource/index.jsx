@@ -74,6 +74,11 @@ export function portfolioDataSource() {
           "portfolioData.portfolio.securities",
           []
         );
+        const securitiesLoading = _.get(
+          this.props,
+          "securitiesData.loading",
+          false
+        );
         const securities = _.get(this.props, "securitiesData.securities", []);
         const addHandler = security => {
           mixpanel.track("Added a Security", {
@@ -110,6 +115,7 @@ export function portfolioDataSource() {
             loading={loading}
             name={name}
             portfolioSecurities={portfolioSecurities}
+            securitiesLoading={securitiesLoading}
             securities={securities}
             persisted={persisted}
             marketing={marketing}

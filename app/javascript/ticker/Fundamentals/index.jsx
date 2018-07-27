@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Query } from "react-apollo";
+import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import FundamentalsTable from "../FundamentalsTable/index";
-import AddSecurityForm from "../AddSecurityForm/index";
 import SecuritiesSelect from "../SecuritiesSelect/index";
 import { GET_SECURITIES_WITH_QUOTES } from "../../src/lib/Queries";
 
@@ -12,7 +11,7 @@ class Fundamentals extends React.PureComponent {
     super(props, context);
 
     this.state = {
-      securities: null
+      securities: []
     };
   }
 
@@ -35,8 +34,16 @@ class Fundamentals extends React.PureComponent {
   }
 
   render() {
-    const ids = this.props.portfolioSecurities.map(security => security.id);
-    const securities = this.state.securities || this.props.portfolioSecurities;
+    const securities = this.props.portfolioSecurities.map(security => {
+      const securityWithQuote = _.find(this.state.securities, {
+        id: security.id
+      });
+
+      return {
+        ...security,
+        quote: securityWithQuote ? securityWithQuote.quote : null
+      };
+    });
 
     return (
       <section>
@@ -48,6 +55,7 @@ class Fundamentals extends React.PureComponent {
         </div>
         <div className="px2 pt2">
           <SecuritiesSelect
+            securitiesLoading={this.props.securitiesLoading}
             securities={this.props.securities}
             addHandler={this.props.addHandler}
           />
@@ -62,9 +70,21 @@ class Fundamentals extends React.PureComponent {
     this.props.client
       .query({
         query: GET_SECURITIES_WITH_QUOTES,
-        variables: { id: ids }
+        variables: { id: ids },
+        fetchPolicy: "no-cache"
       })
-      .then(data => this.setState({ securities: data.data.securities }))
+      .then(data => {
+        this.setState({ securities: data.data.securities });
+        const securitiesWithoutQuotes = _.filter(
+          data.data.securities,
+          security => security.quote.latestPrice === null
+        );
+        const quotesRequired = securitiesWithoutQuotes.length > 0;
+        const refreshInterval = quotesRequired ? 500 : 1000 * 30;
+        setTimeout(() => {
+          this._fetchSecurityQuotes();
+        }, refreshInterval);
+      })
       .catch(error => console.error(error));
   }
 }
@@ -73,6 +93,7 @@ Fundamentals.defaultProps = {};
 
 Fundamentals.propTypes = {
   portfolioSecurities: PropTypes.array.isRequired,
+  securitiesLoading: PropTypes.bool.isRequired,
   securities: PropTypes.array.isRequired,
   addHandler: PropTypes.func.isRequired,
   removeHandler: PropTypes.func.isRequired

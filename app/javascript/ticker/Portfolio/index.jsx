@@ -62,6 +62,7 @@ class Portfolio extends React.Component {
           <Fundamentals
             client={this.props.client}
             portfolioSecurities={this.props.portfolioSecurities}
+            securitiesLoading={this.props.securitiesLoading}
             securities={this.props.securities}
             addHandler={this.props.addHandler}
             removeHandler={this.props.removeHandler}
@@ -78,6 +79,7 @@ Portfolio.propTypes = {
   loading: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   portfolioSecurities: PropTypes.array.isRequired,
+  securitiesLoading: PropTypes.bool.isRequired,
   securities: PropTypes.array.isRequired,
   persisted: PropTypes.bool.isRequired,
   marketing: PropTypes.bool,
