@@ -65,7 +65,7 @@ const Logo = props => {
         height={props.height}
       >
         <title>{title}</title>
-        <path d="M0,0v5h5V0z M1,1h3v3H2V3H1z" />
+        <rect width={props.width} height={props.height} />
       </svg>
     </a>
   );
