@@ -17,12 +17,31 @@ export const GET_PORTFOLIO = gql`
   }
 `;
 
-export const GET_SECURITIES = gql`
+export const GET_SECURITIES_WITHOUT_QUOTES = gql`
   query Securities {
     securities {
       id
       symbol
       name
+    }
+  }
+`;
+
+export const GET_SECURITIES_WITH_QUOTES = gql`
+  query Securities($id: [ID!]!) {
+    securities(id: $id) {
+      id
+      symbol
+      name
+      quote {
+        latestPrice
+        changePercent
+        marketCap
+        latestVolume
+        open
+        high
+        low
+      }
     }
   }
 `;

@@ -5,7 +5,7 @@ import { graphql, compose } from "react-apollo";
 import { appComponent } from "../App/index";
 import {
   GET_PORTFOLIO,
-  GET_SECURITIES,
+  GET_SECURITIES_WITHOUT_QUOTES,
   CREATE_PORTFOLIO_SECURITY_LOCALLY,
   CREATE_PORTFOLIO_SECURITY_REMOTELY,
   DESTROY_PORTFOLIO_SECURITY_LOCALLY,
@@ -20,7 +20,7 @@ export function portfolioQuery() {
 }
 
 export function securitiesQuery() {
-  return graphql(GET_SECURITIES, {
+  return graphql(GET_SECURITIES_WITHOUT_QUOTES, {
     name: "securitiesData"
   });
 }
@@ -106,6 +106,7 @@ export function portfolioDataSource() {
 
         return (
           <BaseComponent
+            client={this.props.client}
             loading={loading}
             name={name}
             portfolioSecurities={portfolioSecurities}

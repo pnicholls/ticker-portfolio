@@ -60,6 +60,7 @@ class Portfolio extends React.Component {
             saveHandler={saveHandler}
           />
           <Fundamentals
+            client={this.props.client}
             portfolioSecurities={this.props.portfolioSecurities}
             securities={this.props.securities}
             addHandler={this.props.addHandler}
