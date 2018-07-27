@@ -8,7 +8,7 @@ import {
   portfolioDataSource
 } from "../PortfolioDataSource/index";
 import PortfolioHeader from "../PortfolioHeader/index";
-import Fundamentals from "../Fundamentals/index";
+import Overview from "../Overview/index";
 
 class Portfolio extends React.Component {
   constructor(props) {
@@ -59,7 +59,7 @@ class Portfolio extends React.Component {
             persisted={this.props.persisted}
             saveHandler={saveHandler}
           />
-          <Fundamentals
+          <Overview
             client={this.props.client}
             portfolioSecurities={this.props.portfolioSecurities}
             securitiesLoading={this.props.securitiesLoading}

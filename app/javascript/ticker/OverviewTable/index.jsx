@@ -16,7 +16,7 @@ import {
   priceRenderer
 } from "../../src/lib/TableRenderers";
 
-class FundamentalsTable extends React.PureComponent {
+class OverviewTable extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
 
@@ -195,7 +195,7 @@ class FundamentalsTable extends React.PureComponent {
     mixpanel.track("Sorted Table", {
       "Sort By": sortBy,
       "Sort Direction": sortDirection,
-      Table: "Fundamentals"
+      Table: "Overview"
     });
   }
 
@@ -208,11 +208,11 @@ class FundamentalsTable extends React.PureComponent {
   }
 }
 
-FundamentalsTable.defaultProps = {};
+OverviewTable.defaultProps = {};
 
-FundamentalsTable.propTypes = {
+OverviewTable.propTypes = {
   data: PropTypes.array.isRequired,
   removeHandler: PropTypes.func.isRequired
 };
 
-export default FundamentalsTable;
+export default OverviewTable;

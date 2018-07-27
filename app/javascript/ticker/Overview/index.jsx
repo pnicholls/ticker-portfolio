@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import FundamentalsTable from "../FundamentalsTable/index";
+import OverviewTable from "../OverviewTable/index";
 import SecuritiesSelect from "../SecuritiesSelect/index";
 import { GET_SECURITIES_WITH_QUOTES } from "../../src/lib/Queries";
 
-class Fundamentals extends React.PureComponent {
+class Overview extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
 
@@ -48,7 +48,7 @@ class Fundamentals extends React.PureComponent {
     return (
       <section>
         <div className="container px3 border-box">
-          <FundamentalsTable
+          <OverviewTable
             data={securities}
             removeHandler={this.props.removeHandler}
           />
@@ -89,9 +89,9 @@ class Fundamentals extends React.PureComponent {
   }
 }
 
-Fundamentals.defaultProps = {};
+Overview.defaultProps = {};
 
-Fundamentals.propTypes = {
+Overview.propTypes = {
   portfolioSecurities: PropTypes.array.isRequired,
   securitiesLoading: PropTypes.bool.isRequired,
   securities: PropTypes.array.isRequired,
@@ -99,4 +99,4 @@ Fundamentals.propTypes = {
   removeHandler: PropTypes.func.isRequired
 };
 
-export default Fundamentals;
+export default Overview;
