@@ -3,7 +3,11 @@ class Types::SecurityType < Types::BaseObject
   field :name, String, null: false
   field :symbol, String, null: false
 
-  field :quote, QuoteType, null: false do
+  field :quote, QuoteType, null: true do
     description ''
+  end
+
+  def quote
+    object.quote.presence
   end
 end

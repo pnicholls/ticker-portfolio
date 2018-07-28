@@ -48,6 +48,10 @@ class Quote
     cache_data(json)
   end
 
+  def presence
+    return self if data.present?
+  end
+
   private
 
   def data

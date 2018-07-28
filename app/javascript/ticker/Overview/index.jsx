@@ -77,7 +77,7 @@ class Overview extends React.PureComponent {
         this.setState({ securities: data.data.securities });
         const securitiesWithoutQuotes = _.filter(
           data.data.securities,
-          security => security.quote.latestPrice === null
+          security => security.quote === null
         );
         const quotesRequired = securitiesWithoutQuotes.length > 0;
         const refreshInterval = quotesRequired ? 500 : 1000 * 30;
