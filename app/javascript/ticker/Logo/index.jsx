@@ -24,7 +24,7 @@ function configurationForChangechangePercent(changePercent) {
 function titleForSecurity(security) {
   let title = "Ticker home";
 
-  if (security === null) {
+  if (security === null || security.quote === null) {
     return title;
   }
 
