@@ -420,6 +420,7 @@ hr {
 }
 .btn:focus {
   outline: 0;
+  outline: none;
   border-color: rgba(0, 0, 0, 0.125);
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.25);
 }
@@ -456,6 +457,12 @@ hr {
 .btn-outline:active {
   box-shadow: inset 0 0 0 20rem rgba(0, 0, 0, 0.125),
     inset 0 3px 4px 0 rgba(0, 0, 0, 0.25), 0 0 1px rgba(0, 0, 0, 0.125);
+}
+.btn-outline-none:active,
+.btn-outline-none:focus {
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
 }
 .btn-outline.is-disabled,
 .btn-outline:disabled {

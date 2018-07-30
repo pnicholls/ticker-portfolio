@@ -53,13 +53,6 @@ class Overview extends React.PureComponent {
             removeHandler={this.props.removeHandler}
           />
         </div>
-        <div className="px2 pt2">
-          <SecuritiesSelect
-            securitiesLoading={this.props.securitiesLoading}
-            securities={this.props.securities}
-            addHandler={this.props.addHandler}
-          />
-        </div>
       </section>
     );
   }
@@ -94,7 +87,6 @@ Overview.defaultProps = {};
 Overview.propTypes = {
   portfolioSecurities: PropTypes.array.isRequired,
   securitiesLoading: PropTypes.bool.isRequired,
-  securities: PropTypes.array.isRequired,
   addHandler: PropTypes.func.isRequired,
   removeHandler: PropTypes.func.isRequired
 };

@@ -78,8 +78,7 @@ class OverviewTable extends React.PureComponent {
                   }
                   cellRenderer={boldCellRenderer}
                   dataKey="name"
-                  width={300}
-                  flexGrow={1}
+                  width={250}
                 />
                 <Column
                   label="Symbol"
@@ -89,7 +88,7 @@ class OverviewTable extends React.PureComponent {
                     _.get(rowData, "symbol", "...")
                   }
                   dataKey="symbol"
-                  width={110}
+                  width={60}
                 />
                 <Column
                   label="Last Price"
@@ -100,7 +99,7 @@ class OverviewTable extends React.PureComponent {
                   }
                   cellRenderer={priceRenderer}
                   dataKey="quote.latestPrice"
-                  width={110}
+                  width={75}
                 />
                 <Column
                   label="Change %"
@@ -111,7 +110,7 @@ class OverviewTable extends React.PureComponent {
                   }
                   cellRenderer={changePercentRenderer}
                   dataKey="quote.changePercent"
-                  width={110}
+                  width={75}
                 />
                 <Column
                   label="Market cap"
@@ -122,7 +121,7 @@ class OverviewTable extends React.PureComponent {
                   }
                   cellRenderer={numberRenderer}
                   dataKey="quote.marketCap"
-                  width={120}
+                  width={85}
                 />
                 <Column
                   label="Volume"
@@ -133,7 +132,7 @@ class OverviewTable extends React.PureComponent {
                   }
                   cellRenderer={numberRenderer}
                   dataKey="quote.latestVolume"
-                  width={90}
+                  width={75}
                 />
                 <Column
                   label="Open"
@@ -144,7 +143,7 @@ class OverviewTable extends React.PureComponent {
                   }
                   cellRenderer={priceRenderer}
                   dataKey="quote.open"
-                  width={80}
+                  width={60}
                 />
                 <Column
                   label="High"
@@ -155,7 +154,7 @@ class OverviewTable extends React.PureComponent {
                   }
                   cellRenderer={priceRenderer}
                   dataKey="quote.high"
-                  width={80}
+                  width={60}
                 />
                 <Column
                   label="Low"
@@ -166,6 +165,15 @@ class OverviewTable extends React.PureComponent {
                   }
                   cellRenderer={priceRenderer}
                   dataKey="quote.low"
+                  width={60}
+                />
+                <Column
+                  label="Day's gain"
+                  headerClassName="h6 bold muted"
+                  className="h6"
+                  cellDataGetter={({ rowData }) => "..."}
+                  cellRenderer={priceRenderer}
+                  dataKey="daysGain"
                   width={80}
                 />
                 <Column
