@@ -1,19 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import TransactionsTable from "../TransactionsTable/index";
 
 const Transactions = props => (
-  <section className="pt4">
-    <div className="container px3">
-      <div className="border-box center">
-        <div className="muted" style={{ minHeight: "200px" }}>
-          Transactions is coming soon...
-        </div>
-      </div>
+  <section>
+    <div className="large-container px3 border-box">
+      <TransactionsTable transactions={[]} />
     </div>
   </section>
 );
 
 Transactions.defaultProps = {};
-Transactions.propTypes = {};
+Transactions.propTypes = {
+  securities: PropTypes.array.isRequired
+};
 
 export default Transactions;

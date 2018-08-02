@@ -32,7 +32,7 @@ export const numberRenderer = ({
     .toUpperCase();
 };
 
-export const priceRenderer = ({
+export const currencyRenderer = ({
   cellData,
   columnData,
   columnIndex,

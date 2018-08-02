@@ -28,13 +28,13 @@ const Section = props => {
       );
     }
     case "performance": {
-      return <Performance />;
+      return <Performance securities={props.portfolioSecurities} />;
     }
     case "fundamentals": {
-      return <Fundamentals />;
+      return <Fundamentals securities={props.portfolioSecurities} />;
     }
     case "transactions": {
-      return <Transactions />;
+      return <Transactions securities={props.portfolioSecurities} />;
     }
   }
 };
@@ -79,6 +79,14 @@ class Portfolio extends React.Component {
 
     const navMenuHandler = (item, event) => {
       this.setState({ selectedNavItem: item });
+
+      const mixpanelEvent = `Viewed Portfolio ${_.capitalize(item)}`;
+      mixpanel.track(mixpanelEvent, {
+        "Portfolio ID": _.get(this.props, "portfolio.id"),
+        Portfolio: _.get(this.props, "portfolio.name"),
+        Marketing: _.get(this.props, "portfolio.marketing")
+      });
+
       event.preventDefault();
       return false;
     };
@@ -89,7 +97,7 @@ class Portfolio extends React.Component {
     const addTransaction = ["transaction"].includes(this.state.selectedNavItem);
 
     return (
-      <div className="container">
+      <div className="large-container">
         <div
           className="rounded bg-white shadow-small"
           style={{ minHeight: "1000px" }}
@@ -125,6 +133,7 @@ Portfolio.defaultProps = {};
 
 Portfolio.propTypes = {
   loading: PropTypes.bool.isRequired,
+  portfolio: PropTypes.object,
   name: PropTypes.string.isRequired,
   portfolioSecurities: PropTypes.array.isRequired,
   securitiesLoading: PropTypes.bool.isRequired,

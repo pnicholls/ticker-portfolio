@@ -34,7 +34,7 @@ class Types::QueryType < Types::BaseObject
     ids = args.fetch(0, {}).fetch(:id, nil)
     if ids.present?
       securities = Security.order(:symbol).where(id: ids)
-      securities.each { |security| security.refresh }
+      securities.each(&:refresh)
       securities
     end
   end

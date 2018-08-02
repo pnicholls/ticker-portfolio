@@ -11,11 +11,11 @@
 
   <body>
     <%= tag.div do %>
-      <%= tag.section class: 'container small-container md-p3 border-box table col-12 height-100vh' do %>
+      <%= tag.section class: 'large-container small-container md-p3 border-box table col-12 height-100vh' do %>
         <%= yield %>
       <% end %>
     <% end %>
-    
+
     <%= render partial: 'shared/intercom' %>
   </body>
 </html>

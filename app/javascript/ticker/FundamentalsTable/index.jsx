@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
+import numeral from "numeral";
 import {
   AutoSizer,
   WindowScroller,
@@ -15,8 +16,9 @@ import {
   numberRenderer,
   currencyRenderer
 } from "../../src/lib/TableRenderers";
+import { Sparklines, SparklinesLine } from "react-sparklines";
 
-class OverviewTable extends React.PureComponent {
+class FundamentalsTable extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
 
@@ -39,7 +41,7 @@ class OverviewTable extends React.PureComponent {
     const { headerHeight, rowHeight, sortBy, sortDirection } = this.state;
 
     const rowGetter = ({ index }) => this._getDatum(sortedList, index);
-    const rowCount = this.props.data.length;
+    const rowCount = this.props.securities.length;
     const sortedList = this._sortList({ sortBy, sortDirection });
 
     const deleteRenderer = data => (
@@ -105,17 +107,6 @@ class OverviewTable extends React.PureComponent {
                   width={75}
                 />
                 <Column
-                  label="Change %"
-                  headerClassName="h6 bold muted"
-                  className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.changePercent", "...")
-                  }
-                  cellRenderer={changePercentRenderer}
-                  dataKey="quote.changePercent"
-                  width={90}
-                />
-                <Column
                   label="Market cap"
                   headerClassName="h6 bold muted"
                   className="h6"
@@ -124,69 +115,108 @@ class OverviewTable extends React.PureComponent {
                   }
                   cellRenderer={numberRenderer}
                   dataKey="quote.marketCap"
-                  width={85}
+                  width={100}
                 />
                 <Column
-                  label="Volume"
+                  label="Avg volume"
                   headerClassName="h6 bold muted"
                   className="h6"
                   cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.latestVolume", "...")
+                    _.get(rowData, "quote.avgTotalVolume", "...")
                   }
                   cellRenderer={numberRenderer}
-                  dataKey="quote.latestVolume"
-                  width={75}
+                  dataKey="quote.avgTotalVolume"
+                  width={100}
                 />
                 <Column
-                  label="Open"
+                  label="52wk high"
                   headerClassName="h6 bold muted"
                   className="h6"
                   cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.open", "...")
+                    _.get(rowData, "stats.week52High", "...")
                   }
                   cellRenderer={currencyRenderer}
-                  dataKey="quote.open"
-                  width={70}
+                  dataKey="stats.week52High"
+                  width={100}
                 />
                 <Column
-                  label="High"
+                  label="52wk low"
                   headerClassName="h6 bold muted"
                   className="h6"
                   cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.high", "...")
+                    _.get(rowData, "stats.week52Low", "...")
                   }
                   cellRenderer={currencyRenderer}
-                  dataKey="quote.high"
-                  width={70}
+                  dataKey="stats.week52Low"
+                  width={100}
                 />
                 <Column
-                  label="Low"
+                  label="EPS"
                   headerClassName="h6 bold muted"
                   className="h6"
                   cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.low", "...")
+                    _.get(rowData, "stats.ttmEPS", "...")
                   }
                   cellRenderer={currencyRenderer}
-                  dataKey="quote.low"
-                  width={70}
+                  dataKey="stats.ttmEPS"
+                  width={55}
                 />
                 <Column
-                  label="Day's gain"
+                  label="P/E"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "quote.peRatio", "...")
+                  }
                   cellRenderer={currencyRenderer}
-                  dataKey="daysGain"
+                  dataKey="quote.peRatio"
+                  width={50}
+                />
+                <Column
+                  label="Beta"
+                  headerClassName="h6 bold muted"
+                  className="h6"
+                  cellDataGetter={({ rowData }) => {
+                    const beta = _.get(rowData, "stats.beta");
+                    if (isNaN(parseFloat(beta))) {
+                      return beta;
+                    }
+
+                    return numeral(beta)
+                      .format("0.00")
+                      .toUpperCase();
+                  }}
+                  cellRenderer={numberRenderer}
+                  dataKey="stats.beta"
+                  width={60}
+                />
+                <Column
+                  label="6m Trend"
+                  headerClassName="h6 bold muted"
+                  className="h6"
+                  cellDataGetter={({ rowData }) => {
+                    const data = _.get(rowData, "charts.sixMonth.data", []);
+                    const chartData = data.map(datum => datum.close);
+                    const changePercent = _.get(
+                      rowData,
+                      "charts.sixMonth.changePercent"
+                    );
+                    const color =
+                      changePercent > 0
+                        ? "rgb(25, 190, 135)"
+                        : "rgb(247, 33, 33)";
+                    return (
+                      <Sparklines data={chartData}>
+                        <SparklinesLine
+                          style={{ fill: "none" }}
+                          color={color}
+                        />
+                      </Sparklines>
+                    );
+                  }}
+                  cellRenderer={numberRenderer}
+                  dataKey="charts.sixMonth.changePercent"
                   width={80}
-                />
-                <Column
-                  label=""
-                  headerClassName="h6 bold muted"
-                  className="h6"
-                  cellDataGetter={({ rowData }) => rowData.id}
-                  cellRenderer={deleteRenderer}
-                  dataKey="delete"
-                  width={20}
                 />
               </Table>
             )}
@@ -211,7 +241,7 @@ class OverviewTable extends React.PureComponent {
   }
 
   _sortList({ sortBy, sortDirection }) {
-    const sortedData = _.sortBy(this.props.data.slice(), [sortBy]);
+    const sortedData = _.sortBy(this.props.securities.slice(), [sortBy]);
     const sortedDataWithDirection =
       sortDirection === SortDirection.DESC ? sortedData.reverse() : sortedData;
 
@@ -219,11 +249,11 @@ class OverviewTable extends React.PureComponent {
   }
 }
 
-OverviewTable.defaultProps = {};
+FundamentalsTable.defaultProps = {};
 
-OverviewTable.propTypes = {
-  data: PropTypes.array.isRequired,
+FundamentalsTable.propTypes = {
+  securities: PropTypes.array.isRequired,
   removeHandler: PropTypes.func.isRequired
 };
 
-export default OverviewTable;
+export default FundamentalsTable;

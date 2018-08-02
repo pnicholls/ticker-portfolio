@@ -58,6 +58,7 @@ export function portfolioDataSource() {
     return class extends React.Component {
       render() {
         const loading = _.get(this.props, "portfolioData.loading", false);
+        const portfolio = _.get(this.props, "portfolioData.portfolio");
         const name = _.get(this.props, "portfolioData.portfolio.name", "-");
         const persisted = _.get(
           this.props,
@@ -113,6 +114,7 @@ export function portfolioDataSource() {
           <BaseComponent
             client={this.props.client}
             loading={loading}
+            portfolio={portfolio}
             name={name}
             portfolioSecurities={portfolioSecurities}
             securitiesLoading={securitiesLoading}

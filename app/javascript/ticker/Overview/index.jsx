@@ -15,6 +15,12 @@ class Overview extends React.PureComponent {
     };
   }
 
+  componentDidMount() {
+    this.mounted = true;
+
+    this._fetchSecurityQuotes();
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     const prevPortfolioSecurities = _
       .map(prevProps.portfolioSecurities, "id")
@@ -33,6 +39,10 @@ class Overview extends React.PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
   render() {
     const securities = this.props.portfolioSecurities.map(security => {
       const securityWithQuote = _.find(this.state.securities, {
@@ -47,7 +57,7 @@ class Overview extends React.PureComponent {
 
     return (
       <section>
-        <div className="container px3 border-box">
+        <div className="large-container px3 border-box">
           <OverviewTable
             data={securities}
             removeHandler={this.props.removeHandler}
@@ -67,6 +77,10 @@ class Overview extends React.PureComponent {
         fetchPolicy: "no-cache"
       })
       .then(data => {
+        if (!this.mounted) {
+          return;
+        }
+
         this.setState({ securities: data.data.securities });
         const securitiesWithoutQuotes = _.filter(
           data.data.securities,

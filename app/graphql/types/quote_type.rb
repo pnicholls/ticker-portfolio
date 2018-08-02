@@ -3,7 +3,9 @@ class Types::QuoteType < Types::BaseObject
   field :changePercent, Float, null: true
   field :marketCap, Float, null: true
   field :latestVolume, Int, null: true
+  field :avgTotalVolume, Int, null: true
   field :open, Float, null: true
   field :high, Float, null: true
   field :low, Float, null: true
+  field :peRatio, Float, null: true
 end

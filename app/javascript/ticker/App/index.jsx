@@ -26,8 +26,15 @@ const stateLink = withClientState({
           variables: { id: variables.portfolio.id }
         });
 
+        const security = {
+          ...variables.security,
+          quote: null,
+          stats: null,
+          charts: null
+        };
+
         const updatedSecurities = _(cachedData.portfolio.securities)
-          .concat([variables.security])
+          .concat([security])
           .uniqBy("id")
           .value();
 

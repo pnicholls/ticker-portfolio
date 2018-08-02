@@ -1,4 +1,4 @@
-class FetchSecurityQuoteJob < ApplicationJob
+class FetchSecurityDataJob < ApplicationJob
   queue_as :default
 
   def perform(security)

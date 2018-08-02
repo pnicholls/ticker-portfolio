@@ -5,6 +5,10 @@ class Types::PortfolioType < Types::BaseObject
   field :marketing, Boolean, null: false
   field :securities, [SecurityType], null: false
 
+  def securities
+    object.portfolio_securities
+  end
+
   def editable
     return false unless current_account
 

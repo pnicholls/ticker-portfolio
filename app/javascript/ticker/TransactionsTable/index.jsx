@@ -16,7 +16,7 @@ import {
   currencyRenderer
 } from "../../src/lib/TableRenderers";
 
-class OverviewTable extends React.PureComponent {
+class TransactionsTable extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
 
@@ -39,7 +39,7 @@ class OverviewTable extends React.PureComponent {
     const { headerHeight, rowHeight, sortBy, sortDirection } = this.state;
 
     const rowGetter = ({ index }) => this._getDatum(sortedList, index);
-    const rowCount = this.props.data.length;
+    const rowCount = this.props.transactions.length;
     const sortedList = this._sortList({ sortBy, sortDirection });
 
     const deleteRenderer = data => (
@@ -73,120 +73,66 @@ class OverviewTable extends React.PureComponent {
                   label="Name"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "name", "...")
-                  }
+                  cellDataGetter={({ rowData }) => "..."}
                   cellRenderer={boldCellRenderer}
                   dataKey="name"
-                  width={250}
+                  width={80}
                   flexShrink={0}
                 />
                 <Column
                   label="Symbol"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "symbol", "...")
-                  }
-                  dataKey="symbol"
-                  flexShrink={0}
+                  cellDataGetter={({ rowData }) => "..."}
+                  cellRenderer={boldCellRenderer}
+                  dataKey="name"
                   width={60}
-                />
-                <Column
-                  label="Last Price"
-                  headerClassName="h6 bold muted"
-                  className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.latestPrice", "...")
-                  }
-                  cellRenderer={currencyRenderer}
-                  dataKey="quote.latestPrice"
                   flexShrink={0}
-                  width={75}
                 />
                 <Column
-                  label="Change %"
-                  headerClassName="h6 bold muted"
-                  className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.changePercent", "...")
-                  }
-                  cellRenderer={changePercentRenderer}
-                  dataKey="quote.changePercent"
-                  width={90}
-                />
-                <Column
-                  label="Market cap"
-                  headerClassName="h6 bold muted"
-                  className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.marketCap", "...")
-                  }
-                  cellRenderer={numberRenderer}
-                  dataKey="quote.marketCap"
-                  width={85}
-                />
-                <Column
-                  label="Volume"
-                  headerClassName="h6 bold muted"
-                  className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.latestVolume", "...")
-                  }
-                  cellRenderer={numberRenderer}
-                  dataKey="quote.latestVolume"
-                  width={75}
-                />
-                <Column
-                  label="Open"
-                  headerClassName="h6 bold muted"
-                  className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.open", "...")
-                  }
-                  cellRenderer={currencyRenderer}
-                  dataKey="quote.open"
-                  width={70}
-                />
-                <Column
-                  label="High"
-                  headerClassName="h6 bold muted"
-                  className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.high", "...")
-                  }
-                  cellRenderer={currencyRenderer}
-                  dataKey="quote.high"
-                  width={70}
-                />
-                <Column
-                  label="Low"
-                  headerClassName="h6 bold muted"
-                  className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.low", "...")
-                  }
-                  cellRenderer={currencyRenderer}
-                  dataKey="quote.low"
-                  width={70}
-                />
-                <Column
-                  label="Day's gain"
+                  label="Type"
                   headerClassName="h6 bold muted"
                   className="h6"
                   cellDataGetter={({ rowData }) => "..."}
-                  cellRenderer={currencyRenderer}
-                  dataKey="daysGain"
+                  dataKey="symbol"
                   width={80}
                 />
                 <Column
-                  label=""
+                  label="Date"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => rowData.id}
-                  cellRenderer={deleteRenderer}
-                  dataKey="delete"
-                  width={20}
+                  cellDataGetter={({ rowData }) => "..."}
+                  cellRenderer={boldCellRenderer}
+                  dataKey="name"
+                  width={80}
+                  flexShrink={0}
+                />
+                <Column
+                  label="Shares"
+                  headerClassName="h6 bold muted"
+                  className="h6"
+                  cellDataGetter={({ rowData }) => "..."}
+                  cellRenderer={changePercentRenderer}
+                  dataKey="quote.changePercent"
+                  width={60}
+                />
+                <Column
+                  label="Price"
+                  headerClassName="h6 bold muted"
+                  className="h6"
+                  cellDataGetter={({ rowData }) => ""}
+                  cellRenderer={numberRenderer}
+                  dataKey="quote.latestVolume"
+                  width={110}
+                />
+                <Column
+                  label="Fees"
+                  headerClassName="h6 bold muted"
+                  className="h6"
+                  cellDataGetter={({ rowData }) => ""}
+                  cellRenderer={currencyRenderer}
+                  dataKey="quote.open"
+                  width={60}
                 />
               </Table>
             )}
@@ -211,7 +157,7 @@ class OverviewTable extends React.PureComponent {
   }
 
   _sortList({ sortBy, sortDirection }) {
-    const sortedData = _.sortBy(this.props.data.slice(), [sortBy]);
+    const sortedData = _.sortBy(this.props.transactions.slice(), [sortBy]);
     const sortedDataWithDirection =
       sortDirection === SortDirection.DESC ? sortedData.reverse() : sortedData;
 
@@ -219,11 +165,11 @@ class OverviewTable extends React.PureComponent {
   }
 }
 
-OverviewTable.defaultProps = {};
+TransactionsTable.defaultProps = {};
 
-OverviewTable.propTypes = {
-  data: PropTypes.array.isRequired,
+TransactionsTable.propTypes = {
+  transactions: PropTypes.array.isRequired,
   removeHandler: PropTypes.func.isRequired
 };
 
-export default OverviewTable;
+export default TransactionsTable;

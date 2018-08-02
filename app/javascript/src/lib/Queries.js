@@ -12,6 +12,35 @@ export const GET_PORTFOLIO = gql`
         id
         symbol
         name
+
+        quote {
+          latestPrice
+          changePercent
+          marketCap
+          latestVolume
+          avgTotalVolume
+          open
+          high
+          low
+          peRatio
+        }
+
+        stats {
+          week52High
+          week52Low
+          ttmEPS
+          beta
+        }
+
+        charts {
+          sixMonth {
+            data {
+              date
+              close
+            }
+            changePercent
+          }
+        }
       }
     }
   }

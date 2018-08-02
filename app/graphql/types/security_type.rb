@@ -7,7 +7,35 @@ class Types::SecurityType < Types::BaseObject
     description ''
   end
 
+  field :stats, StatsType, null: true do
+    description ''
+  end
+
+  field :charts, ChartsType, null: false do
+    description ''
+  end
+
+  def id
+    object.is_a?(Security) ? object.id : object.security.id
+  end
+
+  def name
+    object.is_a?(Security) ? object.name : object.security.name
+  end
+
+  def symbol
+    object.is_a?(Security) ? object.symbol : object.security.symbol
+  end
+
   def quote
-    object.quote.presence
+    object.is_a?(Security) ? object.quote.presence : object.security.quote.presence
+  end
+
+  def stats
+    object.is_a?(Security) ? object.stats.presence : object.security.stats.presence
+  end
+
+  def charts
+    object.is_a?(Security) ? object.charts : object.security.charts
   end
 end

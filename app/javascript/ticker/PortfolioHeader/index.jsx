@@ -73,7 +73,7 @@ const NavMenu = props => {
 
 const PortfolioHeader = props => (
   <section className="mnx1">
-    <div className="container border-box px3 mt0 mb1">
+    <div className="large-container border-box px3 mt0 mb1">
       <div className="pt3 inline-block col-12 align-top">
         <NavMenu
           selectedNavItem={props.selectedNavItem}

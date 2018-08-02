@@ -1,19 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import FundamentalsTable from "../FundamentalsTable/index";
 
 const Fundamentals = props => (
-  <section className="pt4">
-    <div className="container px3">
-      <div className="border-box center">
-        <div className="muted" style={{ minHeight: "200px" }}>
-          Fundamentals is coming soon...
-        </div>
-      </div>
+  <section>
+    <div className="large-container px3 border-box">
+      <FundamentalsTable securities={props.securities} />
     </div>
   </section>
 );
 
 Fundamentals.defaultProps = {};
-Fundamentals.propTypes = {};
+Fundamentals.propTypes = {
+  securities: PropTypes.array.isRequired
+};
 
 export default Fundamentals;

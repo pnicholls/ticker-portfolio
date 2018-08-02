@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FetchSecurityQuoteJobTest < ActiveJob::TestCase
+class FetchSecurityDataJobTest < ActiveJob::TestCase
   # test "the truth" do
   #   assert true
   # end

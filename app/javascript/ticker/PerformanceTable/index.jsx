@@ -16,7 +16,7 @@ import {
   currencyRenderer
 } from "../../src/lib/TableRenderers";
 
-class OverviewTable extends React.PureComponent {
+class PerformanceTable extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
 
@@ -39,7 +39,7 @@ class OverviewTable extends React.PureComponent {
     const { headerHeight, rowHeight, sortBy, sortDirection } = this.state;
 
     const rowGetter = ({ index }) => this._getDatum(sortedList, index);
-    const rowCount = this.props.data.length;
+    const rowCount = this.props.securities.length;
     const sortedList = this._sortList({ sortBy, sortDirection });
 
     const deleteRenderer = data => (
@@ -116,77 +116,76 @@ class OverviewTable extends React.PureComponent {
                   width={90}
                 />
                 <Column
-                  label="Market cap"
+                  label="Shares"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.marketCap", "...")
-                  }
-                  cellRenderer={numberRenderer}
-                  dataKey="quote.marketCap"
-                  width={85}
-                />
-                <Column
-                  label="Volume"
-                  headerClassName="h6 bold muted"
-                  className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.latestVolume", "...")
-                  }
+                  cellDataGetter={({ rowData }) => ""}
                   cellRenderer={numberRenderer}
                   dataKey="quote.latestVolume"
                   width={75}
                 />
                 <Column
-                  label="Open"
+                  label="Cost Basis"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.open", "...")
-                  }
+                  cellDataGetter={({ rowData }) => ""}
                   cellRenderer={currencyRenderer}
                   dataKey="quote.open"
-                  width={70}
+                  width={90}
                 />
                 <Column
-                  label="High"
+                  label="Market value"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.high", "...")
-                  }
+                  cellDataGetter={({ rowData }) => ""}
                   cellRenderer={currencyRenderer}
                   dataKey="quote.high"
-                  width={70}
+                  width={100}
                 />
                 <Column
-                  label="Low"
+                  label="Gain"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) =>
-                    _.get(rowData, "quote.low", "...")
-                  }
+                  cellDataGetter={({ rowData }) => ""}
                   cellRenderer={currencyRenderer}
                   dataKey="quote.low"
-                  width={70}
+                  width={60}
+                />
+                <Column
+                  label="Gain %"
+                  headerClassName="h6 bold muted"
+                  className="h6"
+                  cellDataGetter={({ rowData }) => ""}
+                  cellRenderer={currencyRenderer}
+                  dataKey="daysGain"
+                  width={60}
                 />
                 <Column
                   label="Day's gain"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
-                  cellRenderer={currencyRenderer}
-                  dataKey="daysGain"
-                  width={80}
+                  cellDataGetter={({ rowData }) => ""}
+                  cellRenderer={numberRenderer}
+                  dataKey="delete"
+                  width={75}
                 />
                 <Column
-                  label=""
+                  label="Return %"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => rowData.id}
-                  cellRenderer={deleteRenderer}
+                  cellDataGetter={({ rowData }) => "..."}
+                  cellRenderer={numberRenderer}
                   dataKey="delete"
-                  width={20}
+                  width={75}
+                />
+                <Column
+                  label="Return $"
+                  headerClassName="h6 bold muted"
+                  className="h6"
+                  cellDataGetter={({ rowData }) => "..."}
+                  cellRenderer={numberRenderer}
+                  dataKey="delete"
+                  width={75}
                 />
               </Table>
             )}
@@ -211,7 +210,7 @@ class OverviewTable extends React.PureComponent {
   }
 
   _sortList({ sortBy, sortDirection }) {
-    const sortedData = _.sortBy(this.props.data.slice(), [sortBy]);
+    const sortedData = _.sortBy(this.props.securities.slice(), [sortBy]);
     const sortedDataWithDirection =
       sortDirection === SortDirection.DESC ? sortedData.reverse() : sortedData;
 
@@ -219,11 +218,11 @@ class OverviewTable extends React.PureComponent {
   }
 }
 
-OverviewTable.defaultProps = {};
+PerformanceTable.defaultProps = {};
 
-OverviewTable.propTypes = {
-  data: PropTypes.array.isRequired,
+PerformanceTable.propTypes = {
+  securities: PropTypes.array.isRequired,
   removeHandler: PropTypes.func.isRequired
 };
 
-export default OverviewTable;
+export default PerformanceTable;
