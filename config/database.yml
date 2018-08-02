@@ -78,8 +78,13 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
+
 production:
-  <<: *default
-  database: ticker_production
-  username: ticker
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  timeout: 5000
+  username: <%= ENV['TICKER_DATABASE_USERNAME'] %>
   password: <%= ENV['TICKER_DATABASE_PASSWORD'] %>
+  database: <%= ENV['TICKER_DATABASE_NAME'] %>
+  host: <%= ENV['TICKER_DATABASE_HOST'] %>
