@@ -18,9 +18,6 @@
     }
   },
   "env": {
-    "RAILS_MASTER_KEY": {
-      "required": true
-    },
     "RAILS_ENV": {
       "required": true
     },
