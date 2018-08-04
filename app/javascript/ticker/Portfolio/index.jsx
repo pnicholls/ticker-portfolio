@@ -35,7 +35,7 @@ const Section = props => {
       return <Fundamentals securities={props.securities} />;
     }
     case "transactions": {
-      return <Transactions securities={props.securities} />;
+      return <Transactions transactions={props.portfolio.transactions} />;
     }
   }
 };

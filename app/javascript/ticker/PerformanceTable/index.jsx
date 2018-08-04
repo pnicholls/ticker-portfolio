@@ -119,72 +119,87 @@ class PerformanceTable extends React.PureComponent {
                   label="Shares"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
-                  cellRenderer={numberRenderer}
-                  dataKey="quote.latestVolume"
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "position.shares", "...")
+                  }
+                  dataKey="position.shares"
                   width={75}
                 />
                 <Column
                   label="Cost Basis"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "position.costBasis", "...")
+                  }
                   cellRenderer={currencyRenderer}
-                  dataKey="quote.open"
+                  dataKey="position.costBasis"
                   width={90}
                 />
                 <Column
                   label="Market value"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "position.marketValue", "...")
+                  }
                   cellRenderer={currencyRenderer}
-                  dataKey="quote.high"
+                  dataKey="position.marketValue"
                   width={100}
                 />
                 <Column
                   label="Gain"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "position.gain", "...")
+                  }
                   cellRenderer={currencyRenderer}
-                  dataKey="quote.low"
+                  dataKey="position.gain"
                   width={60}
                 />
                 <Column
                   label="Gain %"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "position.gainPercent", "...")
+                  }
                   cellRenderer={currencyRenderer}
-                  dataKey="daysGain"
+                  dataKey="position.gainPercent"
                   width={60}
                 />
                 <Column
                   label="Day's gain"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "position.daysGain", "...")
+                  }
                   cellRenderer={numberRenderer}
-                  dataKey="delete"
+                  dataKey="position.daysGain"
                   width={75}
                 />
                 <Column
                   label="Return %"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "position.overallReturnPercent", "...")
+                  }
                   cellRenderer={numberRenderer}
-                  dataKey="delete"
+                  dataKey="position.overallReturnPercent"
                   width={75}
                 />
                 <Column
                   label="Return $"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "position.overallReturn", "...")
+                  }
                   cellRenderer={numberRenderer}
-                  dataKey="delete"
+                  dataKey="position.overallReturn"
                   width={75}
                 />
               </Table>

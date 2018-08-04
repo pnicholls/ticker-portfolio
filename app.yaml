@@ -1,0 +1,17 @@
+entrypoint: bundle exec rackup --port $PORT
+env: flex
+runtime: ruby
+manual_scaling:
+  instances: 1
+
+env_variables:
+  REDIS_URL: redis://10.0.0.3:6379
+  SECRET_KEY_BASE: 70f41e5d442f693c73290917afa9f6ef58bad180f547d8d3a39e28e9d471e0212803c0980275cfa540c994ebf9ebcc533ec2d69574e92accc9cc059d3b6ca4fd
+  RAILS_MASTER_KEY: 262b2756222ec99d1f48fdef01feda7b
+  TICKER_DATABASE_NAME: ticker_production
+  TICKER_DATABASE_HOST: /cloudsql/ticker-210502:us-central1:ticker
+  TICKER_DATABASE_USERNAME: ticker
+  TICKER_DATABASE_PASSWORD: PQvbe@uKPcyN8
+
+beta_settings:
+  cloud_sql_instances: ticker-210502:us-central1:ticker

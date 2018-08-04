@@ -124,7 +124,7 @@ class OverviewTable extends React.PureComponent {
                   }
                   cellRenderer={numberRenderer}
                   dataKey="quote.marketCap"
-                  width={85}
+                  width={90}
                 />
                 <Column
                   label="Volume"
@@ -135,7 +135,7 @@ class OverviewTable extends React.PureComponent {
                   }
                   cellRenderer={numberRenderer}
                   dataKey="quote.latestVolume"
-                  width={75}
+                  width={85}
                 />
                 <Column
                   label="Open"
@@ -146,7 +146,7 @@ class OverviewTable extends React.PureComponent {
                   }
                   cellRenderer={currencyRenderer}
                   dataKey="quote.open"
-                  width={70}
+                  width={80}
                 />
                 <Column
                   label="High"
@@ -157,7 +157,7 @@ class OverviewTable extends React.PureComponent {
                   }
                   cellRenderer={currencyRenderer}
                   dataKey="quote.high"
-                  width={70}
+                  width={80}
                 />
                 <Column
                   label="Low"
@@ -168,7 +168,7 @@ class OverviewTable extends React.PureComponent {
                   }
                   cellRenderer={currencyRenderer}
                   dataKey="quote.low"
-                  width={70}
+                  width={80}
                 />
                 <Column
                   label="Day's gain"
@@ -177,7 +177,7 @@ class OverviewTable extends React.PureComponent {
                   cellDataGetter={({ rowData }) => "..."}
                   cellRenderer={currencyRenderer}
                   dataKey="daysGain"
-                  width={80}
+                  width={85}
                 />
                 <Column
                   label=""
@@ -187,6 +187,8 @@ class OverviewTable extends React.PureComponent {
                   cellRenderer={deleteRenderer}
                   dataKey="delete"
                   width={20}
+                  flexGrow={0}
+                  flexShrink={0}
                 />
               </Table>
             )}

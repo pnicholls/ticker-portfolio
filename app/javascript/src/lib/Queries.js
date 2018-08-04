@@ -10,7 +10,6 @@ export const GET_PORTFOLIO = gql`
       persisted @client
       securities {
         id
-        symbol
         name
       }
     }
@@ -86,15 +85,38 @@ export const GET_PORTFOLIO_FUNDAMENTALS = gql`
           beta
         }
 
+        position {
+          shares
+          costBasis
+          marketValue
+          gain
+          gainPercent
+          daysGain
+          overallReturn
+          overallReturnPercent
+        }
+
         charts {
           sixMonth {
+            changePercent
             data {
               date
               close
             }
-            changePercent
           }
         }
+      }
+
+      transactions {
+        id
+        security {
+          name
+          symbol
+        }
+        type
+        date
+        shares
+        price
       }
     }
   }

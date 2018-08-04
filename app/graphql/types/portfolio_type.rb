@@ -4,6 +4,7 @@ class Types::PortfolioType < Types::BaseObject
   field :editable, Boolean, null: false
   field :marketing, Boolean, null: false
   field :securities, [SecurityType], null: false
+  field :transactions, [TransactionType], null: false
 
   def securities
     object.portfolio_securities

@@ -73,66 +73,77 @@ class TransactionsTable extends React.PureComponent {
                   label="Name"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "security.name", "...")
+                  }
                   cellRenderer={boldCellRenderer}
-                  dataKey="name"
-                  width={80}
+                  dataKey="security.name"
+                  width={250}
                   flexShrink={0}
                 />
                 <Column
                   label="Symbol"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
-                  cellRenderer={boldCellRenderer}
-                  dataKey="name"
-                  width={60}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "security.symbol", "...")
+                  }
+                  dataKey="security.symbol"
                   flexShrink={0}
+                  width={150}
                 />
                 <Column
                   label="Type"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
-                  dataKey="symbol"
-                  width={80}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "type", "...")
+                  }
+                  dataKey="type"
+                  width={150}
                 />
                 <Column
                   label="Date"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
-                  cellRenderer={boldCellRenderer}
-                  dataKey="name"
-                  width={80}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "date", "...")
+                  }
+                  dataKey="date"
+                  width={150}
                   flexShrink={0}
                 />
                 <Column
                   label="Shares"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => "..."}
-                  cellRenderer={changePercentRenderer}
-                  dataKey="quote.changePercent"
-                  width={60}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "shares", "...")
+                  }
+                  dataKey="shares"
+                  width={150}
                 />
                 <Column
                   label="Price"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => ""}
-                  cellRenderer={numberRenderer}
-                  dataKey="quote.latestVolume"
-                  width={110}
+                  cellDataGetter={({ rowData }) =>
+                    _.get(rowData, "price", "...")
+                  }
+                  cellRenderer={currencyRenderer}
+                  dataKey="price"
+                  width={150}
                 />
                 <Column
-                  label="Fees"
+                  label=""
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => ""}
-                  cellRenderer={currencyRenderer}
-                  dataKey="quote.open"
-                  width={60}
+                  cellDataGetter={({ rowData }) => rowData.id}
+                  cellRenderer={deleteRenderer}
+                  dataKey="delete"
+                  width={20}
+                  flexGrow={0}
+                  flexShrink={0}
                 />
               </Table>
             )}
