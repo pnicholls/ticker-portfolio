@@ -1,3 +1,5 @@
+:concurrency: 7
+
 Sidekiq.configure_server do |config|
   config.redis = { url: ENV['REDIS_URL'], id: nil }
 end
