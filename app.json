@@ -1,7 +1,7 @@
 {
   "name": "ticker",
   "scripts": {
-    "postdeploy": "bin/rails db:schema:load",
+    "postdeploy": "bin/rails db:schema:load db:fixtures:load",
     "test": "bin/rails test && bin/rails test:system"
   },
   "environments": {
