@@ -1,7 +1,7 @@
 {
   "name": "ticker",
   "scripts": {
-    "postdeploy": "bin/rails db:schema:load",
+    "postdeploy": "bin/rails db:schema:load db:fixtures:load",
     "test": "bin/rails test && bin/rails test:system"
   },
   "environments": {
@@ -18,6 +18,9 @@
     }
   },
   "env": {
+    "RAILS_MASTER_KEY": {
+      "required": true
+    },
     "RAILS_ENV": {
       "required": true
     },
