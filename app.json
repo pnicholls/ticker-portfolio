@@ -1,0 +1,43 @@
+{
+  "name": "ticker",
+  "scripts": {
+    "postdeploy": "bin/rails db:schema:load",
+    "test": "bin/rails test && bin/rails test:system"
+  },
+  "environments": {
+    "test": {
+      "env": {
+        "HEROKU_APP_NAME": "ticker-app-test"
+      },
+      "buildpacks": [
+        { "url": "heroku/ruby" },
+        { "url": "heroku/nodejs" },
+        { "url": "https://github.com/heroku/heroku-buildpack-chromedriver" },
+        { "url": "https://github.com/heroku/heroku-buildpack-google-chrome" }
+      ]
+    }
+  },
+  "env": {
+    "RAILS_ENV": {
+      "required": true
+    },
+    "RACK_ENV": {
+      "required": true
+    },
+    "HEROKU_APP_NAME": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "hobby"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "hobby"
+    }
+  },
+  "addons": ["heroku-postgresql", "heroku-redis"],
+  "buildpacks": [{ "url": "heroku/nodejs" }, { "url": "heroku/ruby" }]
+}
