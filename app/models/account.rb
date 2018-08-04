@@ -20,6 +20,6 @@ class Account < ApplicationRecord
   end
 
   def marketing?
-    email == 'marketing@tickerapp.com'
+    email == 'marketing@useticker.com'
   end
 end
