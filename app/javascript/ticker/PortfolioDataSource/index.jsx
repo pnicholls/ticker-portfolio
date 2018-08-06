@@ -117,11 +117,17 @@ export function portfolioDataSource() {
               }
             );
 
-            return {
-              ...security,
-              stats: fundamentalsSecurity.stats,
-              charts: fundamentalsSecurity.charts
-            };
+            let updatedSecurity = { ...security };
+
+            if (fundamentalsSecurity.stats) {
+              updatedSecurity.stats = fundamentalsSecurity.stats;
+            }
+
+            if (fundamentalsSecurity.charts) {
+              updatedSecurity.charts = fundamentalsSecurity.charts;
+            }
+
+            return updatedSecurity;
           }
         );
 
