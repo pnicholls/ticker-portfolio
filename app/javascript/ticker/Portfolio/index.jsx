@@ -71,7 +71,6 @@ class Portfolio extends React.Component {
       return false;
     };
 
-    const addSecurity = ["overview", "performance", "fundamentals"].includes(
     return (
       <div className="large-container">
         <div
