@@ -37,3 +37,8 @@ daily_journal:
   identifier: 2007
   name: Daily Journal Corp.
   symbol: DJCO
+
+dow_jones_industrial_average:
+  identifier: 1785
+  name: SPDR Dow Jones Industrial Average
+  symbol: DIA
