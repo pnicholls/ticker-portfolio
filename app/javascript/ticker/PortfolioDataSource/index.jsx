@@ -15,7 +15,6 @@ import {
   DESTROY_PORTFOLIO_SECURITY_LOCALLY,
   DESTROY_PORTFOLIO_SECURITY_REMOTELY
 } from "../../src/lib/Queries";
-import merge from "deepmerge";
 
 export function portfolioRootQuery() {
   return graphql(GET_PORTFOLIO, {
