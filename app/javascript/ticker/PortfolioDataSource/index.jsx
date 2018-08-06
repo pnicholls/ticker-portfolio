@@ -53,7 +53,7 @@ export function portfolioTransactionsQuery() {
 
 export function securitiesQuery() {
   return graphql(GET_SECURITIES_WITHOUT_QUOTES, {
-    name: "securitiesData"
+    name: "securitiesQuery"
   });
 }
 
@@ -125,6 +125,8 @@ export function portfolioDataSource() {
           }
         );
 
+        const securities = _.get(this.props, "securitiesQuery.securities", []);
+
         const addHandler = security => {
           return createPortfolioSecurity(
             this.props.client,
@@ -145,7 +147,7 @@ export function portfolioDataSource() {
           <BaseComponent
             client={this.props.client}
             portfolio={mergedPortfolio}
-            securities={[]}
+            securities={securities}
             addHandler={addHandler}
             removeHandler={removeHandler}
           />

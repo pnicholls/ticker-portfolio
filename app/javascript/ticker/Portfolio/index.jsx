@@ -50,9 +50,6 @@ class Portfolio extends React.Component {
   }
 
   render() {
-    const portfolio = this.props.portfolio;
-    const securities = this.props.portfolio.securities;
-    const removeHandler = this.props.removeHandler;
     const saveHandler = () => {
       const securityIds = this.props.portfolioSecurities.map(
         security => `securities[]=${security.id}`
@@ -64,12 +61,16 @@ class Portfolio extends React.Component {
       const parameters = securityIds.join("&");
       window.location = `/registration/new?${parameters}`;
     };
-    const selectedNavItem = this.state.selectedNavItem;
+
     const navMenuHandler = (item, event) => {
       this.setState({ selectedNavItem: item });
       event.preventDefault();
       return false;
     };
+
+    const addSecurity = ["overview", "performance", "fundamentals"].includes(
+      this.state.selectedNavItem
+    );
 
     return (
       <div className="large-container">
@@ -78,17 +79,26 @@ class Portfolio extends React.Component {
           style={{ minHeight: "1000px" }}
         >
           <PortfolioHeader
-            portfolio={portfolio}
+            portfolio={this.props.portfolio}
             saveHandler={saveHandler}
-            selectedNavItem={selectedNavItem}
+            selectedNavItem={this.state.selectedNavItem}
             navMenuHandler={navMenuHandler}
           />
 
           <Section
-            selectedNavItem={selectedNavItem}
-            securities={securities}
-            removeHandler={removeHandler}
+            selectedNavItem={this.state.selectedNavItem}
+            securities={this.props.portfolio.securities}
+            removeHandler={this.props.removeHandler}
           />
+
+          <div className="px2 pt2">
+            <div className={addSecurity ? "" : "display-none"}>
+              <SecuritiesSelect
+                securities={this.props.securities}
+                addHandler={this.props.addHandler}
+              />
+            </div>
+          </div>
         </div>
       </div>
     );
