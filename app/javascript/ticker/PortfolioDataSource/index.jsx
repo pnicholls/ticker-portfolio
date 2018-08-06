@@ -15,6 +15,7 @@ import {
   DESTROY_PORTFOLIO_SECURITY_LOCALLY,
   DESTROY_PORTFOLIO_SECURITY_REMOTELY
 } from "../../src/lib/Queries";
+import merge from "deepmerge";
 
 export function portfolioRootQuery() {
   return graphql(GET_PORTFOLIO, {
@@ -89,36 +90,54 @@ export function portfolioDataSource() {
   return BaseComponent => {
     return class extends React.Component {
       render() {
-        let portfolio = _.get(this.props, "portfolioQuery.portfolio", {
+        const portfolio = _.get(this.props, "portfolioQuery.portfolio", {
           name: "-",
           persisted: true,
           securities: []
         });
 
-        const securities = _.get(this.props, "securitiesData.securities", []);
-
-        const portfolioOverviewSecurities = _.get(
+        const overviewSecurities = _.get(
           this.props,
           "portfolioOverviewQuery.portfolio.securities",
           []
         );
 
-        portfolio = {
-          ...portfolio,
-          securities: portfolioOverviewSecurities
-        };
+        let mergedPortfolio = { ...portfolio, securities: overviewSecurities };
+
+        const fundamentalsSecurities = _.get(
+          this.props,
+          "portfolioFundamentalsQuery.portfolio.securities",
+          []
+        );
+
+        mergedPortfolio.securities = mergedPortfolio.securities.map(
+          security => {
+            const fundamentalsSecurity = fundamentalsSecurities.find(
+              fundamentalsSecurity => {
+                return security.id === fundamentalsSecurity.id;
+              }
+            );
+
+            return {
+              ...security,
+              stats: fundamentalsSecurity.stats,
+              charts: fundamentalsSecurity.charts
+            };
+          }
+        );
 
         const addHandler = security => {
           return createPortfolioSecurity(
             this.props.client,
-            portfolio.portfolio,
+            portfolio,
             security
           );
         };
+
         const removeHandler = security => {
           return destroyPortfolioSecurity(
             this.props.client,
-            portfolio.portfolio,
+            portfolio,
             security
           );
         };
@@ -126,8 +145,8 @@ export function portfolioDataSource() {
         return (
           <BaseComponent
             client={this.props.client}
-            portfolio={portfolio}
-            securities={securities}
+            portfolio={mergedPortfolio}
+            securities={[]}
             addHandler={addHandler}
             removeHandler={removeHandler}
           />
