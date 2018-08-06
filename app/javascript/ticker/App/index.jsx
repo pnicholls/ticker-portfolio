@@ -20,7 +20,7 @@ const stateLink = withClientState({
   defaults: { persisted: true },
   resolvers: {
     Mutation: {
-      createPortfolioSecurity: (unknown, variables, { cache, getCacheKey }) => {
+      createPortfolioSecurity: (obj, variables, { cache, getCacheKey }) => {
         const cachedData = cache.readQuery({
           query: GET_PORTFOLIO,
           variables: { id: variables.portfolio.id }
@@ -55,11 +55,7 @@ const stateLink = withClientState({
 
         return null;
       },
-      destroyPortfolioSecurity: (
-        unknown,
-        variables,
-        { cache, getCacheKey }
-      ) => {
+      destroyPortfolioSecurity: (obj, variables, { cache, getCacheKey }) => {
         const cachedData = cache.readQuery({
           query: GET_PORTFOLIO,
           variables: { id: variables.portfolio.id }

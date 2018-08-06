@@ -162,8 +162,7 @@ class TransactionsTable extends React.PureComponent {
 TransactionsTable.defaultProps = {};
 
 TransactionsTable.propTypes = {
-  transactions: PropTypes.array.isRequired,
-  removeHandler: PropTypes.func.isRequired
+  transactions: PropTypes.array.isRequired
 };
 
 export default TransactionsTable;

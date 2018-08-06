@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 import { compose } from "react-apollo";
 import { appComponent } from "../App/index";
 import {
-  portfolioQuery,
+  portfolioRootQuery,
+  portfolioOverviewQuery,
+  portfolioPerformanceQuery,
+  portfolioFundamentalsQuery,
+  portfolioTransactionsQuery,
   securitiesQuery,
   portfolioDataSource
 } from "../PortfolioDataSource/index";
@@ -19,22 +23,19 @@ const Section = props => {
     case "overview": {
       return (
         <Overview
-          client={props.client}
-          portfolioSecurities={props.portfolioSecurities}
-          securitiesLoading={props.securitiesLoading}
-          addHandler={props.addHandler}
+          securities={props.securities}
           removeHandler={props.removeHandler}
         />
       );
     }
     case "performance": {
-      return <Performance securities={props.portfolioSecurities} />;
+      return <Performance securities={props.securities} />;
     }
     case "fundamentals": {
-      return <Fundamentals securities={props.portfolioSecurities} />;
+      return <Fundamentals securities={props.securities} />;
     }
     case "transactions": {
-      return <Transactions securities={props.portfolioSecurities} />;
+      return <Transactions securities={props.securities} />;
     }
   }
 };
@@ -49,6 +50,9 @@ class Portfolio extends React.Component {
   }
 
   render() {
+    const portfolio = this.props.portfolio;
+    const securities = this.props.portfolio.securities;
+    const removeHandler = this.props.removeHandler;
     const saveHandler = () => {
       const securityIds = this.props.portfolioSecurities.map(
         security => `securities[]=${security.id}`
@@ -60,7 +64,7 @@ class Portfolio extends React.Component {
       const parameters = securityIds.join("&");
       window.location = `/registration/new?${parameters}`;
     };
-
+    const selectedNavItem = this.state.selectedNavItem;
     const navMenuHandler = (item, event) => {
       this.setState({ selectedNavItem: item });
       event.preventDefault();
@@ -68,10 +72,6 @@ class Portfolio extends React.Component {
     };
 
     const addSecurity = ["overview", "performance", "fundamentals"].includes(
-      this.state.selectedNavItem
-    );
-    const addTransaction = ["transaction"].includes(this.state.selectedNavItem);
-
     return (
       <div className="large-container">
         <div
@@ -79,26 +79,17 @@ class Portfolio extends React.Component {
           style={{ minHeight: "1000px" }}
         >
           <PortfolioHeader
-            loading={this.props.loading}
-            name={this.props.name}
-            persisted={this.props.persisted}
+            portfolio={portfolio}
             saveHandler={saveHandler}
-            selectedNavItem={this.state.selectedNavItem}
+            selectedNavItem={selectedNavItem}
             navMenuHandler={navMenuHandler}
           />
+
           <Section
-            {...this.props}
-            selectedNavItem={this.state.selectedNavItem}
+            selectedNavItem={selectedNavItem}
+            securities={securities}
+            removeHandler={removeHandler}
           />
-          <div className="px2 pt2">
-            <div className={addSecurity ? "" : "display-none"}>
-              <SecuritiesSelect
-                securitiesLoading={this.props.securitiesLoading}
-                securities={this.props.securities}
-                addHandler={this.props.addHandler}
-              />
-            </div>
-          </div>
         </div>
       </div>
     );
@@ -108,22 +99,20 @@ class Portfolio extends React.Component {
 Portfolio.defaultProps = {};
 
 Portfolio.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  portfolio: PropTypes.object,
-  name: PropTypes.string.isRequired,
-  portfolioSecurities: PropTypes.array.isRequired,
-  securitiesLoading: PropTypes.bool.isRequired,
+  portfolio: PropTypes.object.isRequired,
   securities: PropTypes.array.isRequired,
-  persisted: PropTypes.bool.isRequired,
-  marketing: PropTypes.bool,
   addHandler: PropTypes.func.isRequired,
   removeHandler: PropTypes.func.isRequired
 };
 
 const enhancedPortfolio = compose(
   appComponent(),
-  portfolioQuery(),
+  portfolioRootQuery(),
+  portfolioOverviewQuery(),
   securitiesQuery(),
+  portfolioPerformanceQuery(),
+  portfolioFundamentalsQuery(),
+  portfolioTransactionsQuery(),
   portfolioDataSource()
 )(Portfolio);
 

@@ -5,6 +5,10 @@ import { graphql, compose } from "react-apollo";
 import { appComponent } from "../App/index";
 import {
   GET_PORTFOLIO,
+  GET_PORTFOLIO_OVERVIEW,
+  GET_PORTFOLIO_PERFORMANCE,
+  GET_PORTFOLIO_FUNDAMENTALS,
+  GET_PORTFOLIO_TRANSACTIONS,
   GET_SECURITIES_WITHOUT_QUOTES,
   CREATE_PORTFOLIO_SECURITY_LOCALLY,
   CREATE_PORTFOLIO_SECURITY_REMOTELY,
@@ -12,9 +16,37 @@ import {
   DESTROY_PORTFOLIO_SECURITY_REMOTELY
 } from "../../src/lib/Queries";
 
-export function portfolioQuery() {
+export function portfolioRootQuery() {
   return graphql(GET_PORTFOLIO, {
-    name: "portfolioData",
+    name: "portfolioQuery",
+    options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
+  });
+}
+
+export function portfolioOverviewQuery() {
+  return graphql(GET_PORTFOLIO_OVERVIEW, {
+    name: "portfolioOverviewQuery",
+    options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
+  });
+}
+
+export function portfolioPerformanceQuery() {
+  return graphql(GET_PORTFOLIO_PERFORMANCE, {
+    name: "portfolioPerformanceQuery",
+    options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
+  });
+}
+
+export function portfolioFundamentalsQuery() {
+  return graphql(GET_PORTFOLIO_FUNDAMENTALS, {
+    name: "portfolioFundamentalsQuery",
+    options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
+  });
+}
+
+export function portfolioTransactionsQuery() {
+  return graphql(GET_PORTFOLIO_TRANSACTIONS, {
+    name: "portfolioTransactionsQuery",
     options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
   });
 }
@@ -57,41 +89,36 @@ export function portfolioDataSource() {
   return BaseComponent => {
     return class extends React.Component {
       render() {
-        const loading = _.get(this.props, "portfolioData.loading", false);
-        const portfolio = _.get(this.props, "portfolioData.portfolio");
-        const name = _.get(this.props, "portfolioData.portfolio.name", "-");
-        const persisted = _.get(
+        let portfolio = _.get(this.props, "portfolioQuery.portfolio", {
+          name: "-",
+          persisted: true,
+          securities: []
+        });
+
+        const securities = _.get(this.props, "securitiesData.securities", []);
+
+        const portfolioOverviewSecurities = _.get(
           this.props,
-          "portfolioData.portfolio.persisted",
-          true
-        );
-        const marketing = _.get(
-          this.props,
-          "portfolioData.portfolio.marketing",
-          null
-        );
-        const portfolioSecurities = _.get(
-          this.props,
-          "portfolioData.portfolio.securities",
+          "portfolioOverviewQuery.portfolio.securities",
           []
         );
-        const securitiesLoading = _.get(
-          this.props,
-          "securitiesData.loading",
-          false
-        );
-        const securities = _.get(this.props, "securitiesData.securities", []);
+
+        portfolio = {
+          ...portfolio,
+          securities: portfolioOverviewSecurities
+        };
+
         const addHandler = security => {
           return createPortfolioSecurity(
             this.props.client,
-            this.props.portfolioData.portfolio,
+            portfolio.portfolio,
             security
           );
         };
         const removeHandler = security => {
           return destroyPortfolioSecurity(
             this.props.client,
-            this.props.portfolioData.portfolio,
+            portfolio.portfolio,
             security
           );
         };
@@ -99,14 +126,8 @@ export function portfolioDataSource() {
         return (
           <BaseComponent
             client={this.props.client}
-            loading={loading}
             portfolio={portfolio}
-            name={name}
-            portfolioSecurities={portfolioSecurities}
-            securitiesLoading={securitiesLoading}
             securities={securities}
-            persisted={persisted}
-            marketing={marketing}
             addHandler={addHandler}
             removeHandler={removeHandler}
           />

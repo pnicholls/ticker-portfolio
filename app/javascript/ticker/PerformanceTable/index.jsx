@@ -119,7 +119,7 @@ class PerformanceTable extends React.PureComponent {
                   label="Shares"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => ""}
+                  cellDataGetter={({ rowData }) => "..."}
                   cellRenderer={numberRenderer}
                   dataKey="quote.latestVolume"
                   width={75}
@@ -128,7 +128,7 @@ class PerformanceTable extends React.PureComponent {
                   label="Cost Basis"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => ""}
+                  cellDataGetter={({ rowData }) => "..."}
                   cellRenderer={currencyRenderer}
                   dataKey="quote.open"
                   width={90}
@@ -137,7 +137,7 @@ class PerformanceTable extends React.PureComponent {
                   label="Market value"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => ""}
+                  cellDataGetter={({ rowData }) => "..."}
                   cellRenderer={currencyRenderer}
                   dataKey="quote.high"
                   width={100}
@@ -146,7 +146,7 @@ class PerformanceTable extends React.PureComponent {
                   label="Gain"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => ""}
+                  cellDataGetter={({ rowData }) => "..."}
                   cellRenderer={currencyRenderer}
                   dataKey="quote.low"
                   width={60}
@@ -155,7 +155,7 @@ class PerformanceTable extends React.PureComponent {
                   label="Gain %"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => ""}
+                  cellDataGetter={({ rowData }) => "..."}
                   cellRenderer={currencyRenderer}
                   dataKey="daysGain"
                   width={60}
@@ -164,7 +164,7 @@ class PerformanceTable extends React.PureComponent {
                   label="Day's gain"
                   headerClassName="h6 bold muted"
                   className="h6"
-                  cellDataGetter={({ rowData }) => ""}
+                  cellDataGetter={({ rowData }) => "..."}
                   cellRenderer={numberRenderer}
                   dataKey="delete"
                   width={75}
@@ -215,8 +215,7 @@ class PerformanceTable extends React.PureComponent {
 PerformanceTable.defaultProps = {};
 
 PerformanceTable.propTypes = {
-  securities: PropTypes.array.isRequired,
-  removeHandler: PropTypes.func.isRequired
+  securities: PropTypes.array.isRequired
 };
 
 export default PerformanceTable;

@@ -80,16 +80,14 @@ const PortfolioHeader = props => (
           navMenuHandler={props.navMenuHandler}
         />
         <SaveButton
-          persisted={props.persisted}
+          persisted={props.portfolio.persisted}
           saveHandler={props.saveHandler}
         />
         <h1 className="h3 mt0 mb1 regular">
-          <b>{props.name}</b>
+          <b>{props.portfolio.name}</b>
         </h1>
         <p className="muted smallest-text left-align">
-          {props.loading
-            ? "-"
-            : "Market data may be delayed by up to 5 minutes."}
+          Market data may be delayed by up to 5 minutes.
         </p>
       </div>
     </div>
@@ -99,8 +97,7 @@ const PortfolioHeader = props => (
 PortfolioHeader.defaultProps = {};
 
 PortfolioHeader.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired,
+  portfolio: PropTypes.object.isRequired,
   saveHandler: PropTypes.func.isRequired
 };
 
