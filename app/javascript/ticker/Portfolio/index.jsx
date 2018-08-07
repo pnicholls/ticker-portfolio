@@ -51,10 +51,10 @@ class Portfolio extends React.Component {
 
   render() {
     const saveHandler = () => {
-      const securityIds = this.props.portfolioSecurities.map(
+      const securityIds = this.props.portfolio.securities.map(
         security => `securities[]=${security.id}`
       );
-      const securityNames = this.props.portfolioSecurities.map(
+      const securityNames = this.props.portfolio.securities.map(
         security => security.name
       );
 
