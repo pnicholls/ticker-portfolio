@@ -153,6 +153,11 @@ export function portfolioDataSource() {
           );
         };
 
+        this.props.portfolioOverviewQuery.startPolling(1000 * 30);
+        this.props.portfolioPerformanceQuery.startPolling(1000 * 30);
+        this.props.portfolioFundamentalsQuery.startPolling(1000 * 30);
+        this.props.portfolioTransactionsQuery.startPolling(1000 * 30);
+
         return (
           <BaseComponent
             client={this.props.client}
