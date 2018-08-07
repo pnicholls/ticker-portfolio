@@ -117,6 +117,10 @@ export function portfolioDataSource() {
               }
             );
 
+            if (!fundamentalsSecurity) {
+              return security;
+            }
+
             let updatedSecurity = { ...security };
 
             if (fundamentalsSecurity.stats) {
