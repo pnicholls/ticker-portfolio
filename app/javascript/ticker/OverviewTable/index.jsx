@@ -202,12 +202,6 @@ class OverviewTable extends React.PureComponent {
 
   _sort({ sortBy, sortDirection }) {
     this.setState({ sortBy, sortDirection });
-
-    mixpanel.track("Sorted Table", {
-      "Sort By": sortBy,
-      "Sort Direction": sortDirection,
-      Table: "Overview"
-    });
   }
 
   _sortList({ sortBy, sortDirection }) {

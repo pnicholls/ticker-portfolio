@@ -82,13 +82,6 @@ export function portfolioDataSource() {
         );
         const securities = _.get(this.props, "securitiesData.securities", []);
         const addHandler = security => {
-          mixpanel.track("Added a Security", {
-            "Portfolio ID": this.props.portfolioData.portfolio.id,
-            Portfolio: this.props.portfolioData.portfolio.name,
-            "Security ID": security.id,
-            Security: security.name
-          });
-
           return createPortfolioSecurity(
             this.props.client,
             this.props.portfolioData.portfolio,
@@ -96,13 +89,6 @@ export function portfolioDataSource() {
           );
         };
         const removeHandler = security => {
-          mixpanel.track("Removed a Security", {
-            "Portfolio ID": this.props.portfolioData.portfolio.id,
-            Portfolio: this.props.portfolioData.portfolio.name,
-            "Security ID": security.id,
-            Security: security.name
-          });
-
           return destroyPortfolioSecurity(
             this.props.client,
             this.props.portfolioData.portfolio,
