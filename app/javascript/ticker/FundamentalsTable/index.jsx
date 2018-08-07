@@ -177,7 +177,7 @@ class FundamentalsTable extends React.PureComponent {
                   headerClassName="h6 bold muted"
                   className="h6"
                   cellDataGetter={({ rowData }) => {
-                    const beta = _.get(rowData, "stats.beta");
+                    const beta = _.get(rowData, "stats.beta", "...");
                     if (isNaN(parseFloat(beta))) {
                       return beta;
                     }
@@ -195,6 +195,10 @@ class FundamentalsTable extends React.PureComponent {
                   headerClassName="h6 bold muted"
                   className="h6"
                   cellDataGetter={({ rowData }) => {
+                    if (!_.get(rowData, "charts.sixMonth.data", null)) {
+                      return "...";
+                    }
+
                     const data = _.get(rowData, "charts.sixMonth.data", []);
                     const chartData = data.map(datum => datum.close);
                     const changePercent = _.get(
@@ -246,8 +250,7 @@ class FundamentalsTable extends React.PureComponent {
 FundamentalsTable.defaultProps = {};
 
 FundamentalsTable.propTypes = {
-  securities: PropTypes.array.isRequired,
-  removeHandler: PropTypes.func.isRequired
+  securities: PropTypes.array.isRequired
 };
 
 export default FundamentalsTable;

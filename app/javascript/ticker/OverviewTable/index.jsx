@@ -39,7 +39,7 @@ class OverviewTable extends React.PureComponent {
     const { headerHeight, rowHeight, sortBy, sortDirection } = this.state;
 
     const rowGetter = ({ index }) => this._getDatum(sortedList, index);
-    const rowCount = this.props.data.length;
+    const rowCount = this.props.securities.length;
     const sortedList = this._sortList({ sortBy, sortDirection });
 
     const deleteRenderer = data => (
@@ -205,7 +205,7 @@ class OverviewTable extends React.PureComponent {
   }
 
   _sortList({ sortBy, sortDirection }) {
-    const sortedData = _.sortBy(this.props.data.slice(), [sortBy]);
+    const sortedData = _.sortBy(this.props.securities.slice(), [sortBy]);
     const sortedDataWithDirection =
       sortDirection === SortDirection.DESC ? sortedData.reverse() : sortedData;
 
@@ -216,7 +216,7 @@ class OverviewTable extends React.PureComponent {
 OverviewTable.defaultProps = {};
 
 OverviewTable.propTypes = {
-  data: PropTypes.array.isRequired,
+  securities: PropTypes.array.isRequired,
   removeHandler: PropTypes.func.isRequired
 };
 

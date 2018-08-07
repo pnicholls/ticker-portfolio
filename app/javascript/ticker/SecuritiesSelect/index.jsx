@@ -20,9 +20,10 @@ class SecuritiesSelect extends React.Component {
       options
     });
 
-    const placeholder = this.props.securitiesLoading
-      ? "Loading search..."
-      : "Add a security (search by name or symbol)";
+    const placeholder =
+      this.props.securities.length === 0
+        ? "Loading search..."
+        : "Add a security (search by name or symbol)";
 
     const addHandler = data => {
       return this.props.addHandler(data.security);
@@ -50,7 +51,6 @@ class SecuritiesSelect extends React.Component {
 SecuritiesSelect.defaultProps = {};
 
 SecuritiesSelect.propTypes = {
-  securitiesLoading: PropTypes.bool.isRequired,
   securities: PropTypes.array.isRequired
 };
 

@@ -5,6 +5,10 @@ import { graphql, compose } from "react-apollo";
 import { appComponent } from "../App/index";
 import {
   GET_PORTFOLIO,
+  GET_PORTFOLIO_OVERVIEW,
+  GET_PORTFOLIO_PERFORMANCE,
+  GET_PORTFOLIO_FUNDAMENTALS,
+  GET_PORTFOLIO_TRANSACTIONS,
   GET_SECURITIES_WITHOUT_QUOTES,
   CREATE_PORTFOLIO_SECURITY_LOCALLY,
   CREATE_PORTFOLIO_SECURITY_REMOTELY,
@@ -12,16 +16,44 @@ import {
   DESTROY_PORTFOLIO_SECURITY_REMOTELY
 } from "../../src/lib/Queries";
 
-export function portfolioQuery() {
+export function portfolioRootQuery() {
   return graphql(GET_PORTFOLIO, {
-    name: "portfolioData",
+    name: "portfolioQuery",
+    options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
+  });
+}
+
+export function portfolioOverviewQuery() {
+  return graphql(GET_PORTFOLIO_OVERVIEW, {
+    name: "portfolioOverviewQuery",
+    options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
+  });
+}
+
+export function portfolioPerformanceQuery() {
+  return graphql(GET_PORTFOLIO_PERFORMANCE, {
+    name: "portfolioPerformanceQuery",
+    options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
+  });
+}
+
+export function portfolioFundamentalsQuery() {
+  return graphql(GET_PORTFOLIO_FUNDAMENTALS, {
+    name: "portfolioFundamentalsQuery",
+    options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
+  });
+}
+
+export function portfolioTransactionsQuery() {
+  return graphql(GET_PORTFOLIO_TRANSACTIONS, {
+    name: "portfolioTransactionsQuery",
     options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
   });
 }
 
 export function securitiesQuery() {
   return graphql(GET_SECURITIES_WITHOUT_QUOTES, {
-    name: "securitiesData"
+    name: "securitiesQuery"
   });
 }
 
@@ -57,56 +89,80 @@ export function portfolioDataSource() {
   return BaseComponent => {
     return class extends React.Component {
       render() {
-        const loading = _.get(this.props, "portfolioData.loading", false);
-        const portfolio = _.get(this.props, "portfolioData.portfolio");
-        const name = _.get(this.props, "portfolioData.portfolio.name", "-");
-        const persisted = _.get(
+        const portfolio = _.get(this.props, "portfolioQuery.portfolio", {
+          name: "-",
+          persisted: true,
+          securities: []
+        });
+
+        const overviewSecurities = _.get(
           this.props,
-          "portfolioData.portfolio.persisted",
-          true
-        );
-        const marketing = _.get(
-          this.props,
-          "portfolioData.portfolio.marketing",
-          null
-        );
-        const portfolioSecurities = _.get(
-          this.props,
-          "portfolioData.portfolio.securities",
+          "portfolioOverviewQuery.portfolio.securities",
           []
         );
-        const securitiesLoading = _.get(
+
+        let mergedPortfolio = { ...portfolio, securities: overviewSecurities };
+
+        const fundamentalsSecurities = _.get(
           this.props,
-          "securitiesData.loading",
-          false
+          "portfolioFundamentalsQuery.portfolio.securities",
+          []
         );
-        const securities = _.get(this.props, "securitiesData.securities", []);
+
+        mergedPortfolio.securities = mergedPortfolio.securities.map(
+          security => {
+            const fundamentalsSecurity = fundamentalsSecurities.find(
+              fundamentalsSecurity => {
+                return security.id === fundamentalsSecurity.id;
+              }
+            );
+
+            if (!fundamentalsSecurity) {
+              return security;
+            }
+
+            let updatedSecurity = { ...security };
+
+            if (fundamentalsSecurity.stats) {
+              updatedSecurity.stats = fundamentalsSecurity.stats;
+            }
+
+            if (fundamentalsSecurity.charts) {
+              updatedSecurity.charts = fundamentalsSecurity.charts;
+            }
+
+            return updatedSecurity;
+          }
+        );
+
+        const securities = _.get(this.props, "securitiesQuery.securities", []);
+
         const addHandler = security => {
           return createPortfolioSecurity(
             this.props.client,
-            this.props.portfolioData.portfolio,
-            security
-          );
-        };
-        const removeHandler = security => {
-          return destroyPortfolioSecurity(
-            this.props.client,
-            this.props.portfolioData.portfolio,
+            portfolio,
             security
           );
         };
 
+        const removeHandler = security => {
+          return destroyPortfolioSecurity(
+            this.props.client,
+            portfolio,
+            security
+          );
+        };
+
+        this.props.portfolioOverviewQuery.startPolling(1000 * 30);
+        this.props.portfolioPerformanceQuery.startPolling(1000 * 30);
+        this.props.portfolioFundamentalsQuery.startPolling(1000 * 30);
+        this.props.portfolioTransactionsQuery.startPolling(1000 * 30);
+
         return (
           <BaseComponent
             client={this.props.client}
-            loading={loading}
-            portfolio={portfolio}
-            name={name}
-            portfolioSecurities={portfolioSecurities}
-            securitiesLoading={securitiesLoading}
+            portfolio={mergedPortfolio}
             securities={securities}
-            persisted={persisted}
-            marketing={marketing}
             addHandler={addHandler}
             removeHandler={removeHandler}
           />
