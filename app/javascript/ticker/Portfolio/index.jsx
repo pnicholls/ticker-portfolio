@@ -44,19 +44,8 @@ class Portfolio extends React.Component {
     super(props);
 
     this.state = {
-      selectedNavItem: "overview",
-      mixpanelEventTracked: false
+      selectedNavItem: "overview"
     };
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!this.state.mixpanelEventTracked && this.props.marketing !== null) {
-      const event = this.props.marketing
-        ? "Viewed Marketing Portfolio"
-        : "Viewed Portfolio";
-      mixpanel.track(event);
-      this.setState({ mixpanelEventTracked: true });
-    }
   }
 
   render() {
@@ -68,25 +57,12 @@ class Portfolio extends React.Component {
         security => security.name
       );
 
-      mixpanel.track("Clicked Save Portfolio", {
-        Securities: securityNames.join(", "),
-        "Securities Count": securityNames.length
-      });
-
       const parameters = securityIds.join("&");
       window.location = `/registration/new?${parameters}`;
     };
 
     const navMenuHandler = (item, event) => {
       this.setState({ selectedNavItem: item });
-
-      const mixpanelEvent = `Viewed Portfolio ${_.capitalize(item)}`;
-      mixpanel.track(mixpanelEvent, {
-        "Portfolio ID": _.get(this.props, "portfolio.id"),
-        Portfolio: _.get(this.props, "portfolio.name"),
-        Marketing: _.get(this.props, "portfolio.marketing")
-      });
-
       event.preventDefault();
       return false;
     };

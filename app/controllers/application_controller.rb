@@ -3,5 +3,4 @@ class ApplicationController < ActionController::Base
   include Analytics
 
   helper_method :current_account
-  helper_method :mixpanel_token
 end
