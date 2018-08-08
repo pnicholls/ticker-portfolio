@@ -106,6 +106,14 @@ export const GET_PORTFOLIO_FUNDAMENTALS = gql`
           }
         }
       }
+    }
+  }
+`;
+
+export const GET_PORTFOLIO_TRANSACTIONS = gql`
+  query Portfolio($id: ID!) {
+    portfolio(id: $id) {
+      id
 
       transactions {
         id
@@ -118,14 +126,6 @@ export const GET_PORTFOLIO_FUNDAMENTALS = gql`
         shares
         price
       }
-    }
-  }
-`;
-
-export const GET_PORTFOLIO_TRANSACTIONS = gql`
-  query Portfolio($id: ID!) {
-    portfolio(id: $id) {
-      id
     }
   }
 `;

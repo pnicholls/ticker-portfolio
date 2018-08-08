@@ -77,10 +77,6 @@ const destroyPortfolioSecurity = (obj, variables, { cache, getCacheKey }) => {
   return null;
 };
 
-const portfolioQuery = () => {
-  console.log("wtf");
-};
-
 const stateLink = withClientState({
   cache,
   defaults: { persisted: true },

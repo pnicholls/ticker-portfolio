@@ -92,7 +92,8 @@ export function portfolioDataSource() {
         const portfolio = _.get(this.props, "portfolioQuery.portfolio", {
           name: "-",
           persisted: true,
-          securities: []
+          securities: [],
+          transactions: []
         });
 
         const overviewSecurities = _.get(
@@ -101,7 +102,17 @@ export function portfolioDataSource() {
           []
         );
 
-        let mergedPortfolio = { ...portfolio, securities: overviewSecurities };
+        const transactions = _.get(
+          this.props,
+          "portfolioTransactionsQuery.portfolio.transactions",
+          []
+        );
+
+        let mergedPortfolio = {
+          ...portfolio,
+          securities: overviewSecurities,
+          transactions: transactions
+        };
 
         const fundamentalsSecurities = _.get(
           this.props,
