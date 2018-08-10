@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import gql from "graphql-tag";
-import { graphql, compose } from "react-apollo";
+import { Query, graphql, compose } from "react-apollo";
 import { appComponent } from "../App/index";
 import {
   GET_PORTFOLIO,
-  GET_PORTFOLIO_OVERVIEW,
-  GET_PORTFOLIO_PERFORMANCE,
-  GET_PORTFOLIO_FUNDAMENTALS,
+  PORTFOLIO_SUBSCRIPTION,
+  SECURITY_SUBSCRIPTION,
   GET_PORTFOLIO_TRANSACTIONS,
   GET_SECURITIES_WITHOUT_QUOTES,
   CREATE_PORTFOLIO_SECURITY_LOCALLY,
@@ -95,46 +94,6 @@ export function portfolioDataSource() {
           securities: []
         });
 
-        const overviewSecurities = _.get(
-          this.props,
-          "portfolioOverviewQuery.portfolio.securities",
-          []
-        );
-
-        let mergedPortfolio = { ...portfolio, securities: overviewSecurities };
-
-        const fundamentalsSecurities = _.get(
-          this.props,
-          "portfolioFundamentalsQuery.portfolio.securities",
-          []
-        );
-
-        mergedPortfolio.securities = mergedPortfolio.securities.map(
-          security => {
-            const fundamentalsSecurity = fundamentalsSecurities.find(
-              fundamentalsSecurity => {
-                return security.id === fundamentalsSecurity.id;
-              }
-            );
-
-            if (!fundamentalsSecurity) {
-              return security;
-            }
-
-            let updatedSecurity = { ...security };
-
-            if (fundamentalsSecurity.stats) {
-              updatedSecurity.stats = fundamentalsSecurity.stats;
-            }
-
-            if (fundamentalsSecurity.charts) {
-              updatedSecurity.charts = fundamentalsSecurity.charts;
-            }
-
-            return updatedSecurity;
-          }
-        );
-
         const securities = _.get(this.props, "securitiesQuery.securities", []);
 
         const addHandler = security => {
@@ -153,19 +112,34 @@ export function portfolioDataSource() {
           );
         };
 
-        this.props.portfolioOverviewQuery.startPolling(1000 * 30);
-        this.props.portfolioPerformanceQuery.startPolling(1000 * 30);
-        this.props.portfolioFundamentalsQuery.startPolling(1000 * 30);
-        this.props.portfolioTransactionsQuery.startPolling(1000 * 30);
-
         return (
-          <BaseComponent
-            client={this.props.client}
-            portfolio={mergedPortfolio}
-            securities={securities}
-            addHandler={addHandler}
-            removeHandler={removeHandler}
-          />
+          <Query
+            query={GET_PORTFOLIO}
+            variables={{ id: this.props.portfolioId }}
+          >
+            {({ subscribeToMore, ...result }) => {
+              const securities = _.get(result, "data.portfolio.securities", []);
+
+              securities.forEach(security => console.log(security));
+
+              securities.forEach(security =>
+                subscribeToMore({
+                  document: SECURITY_SUBSCRIPTION,
+                  variables: { id: security.id }
+                })
+              );
+
+              return (
+                <BaseComponent
+                  client={this.props.client}
+                  portfolio={portfolio}
+                  securities={securities}
+                  addHandler={addHandler}
+                  removeHandler={removeHandler}
+                />
+              );
+            }}
+          </Query>
         );
       }
     };

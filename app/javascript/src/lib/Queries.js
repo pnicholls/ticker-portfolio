@@ -1,5 +1,90 @@
 import gql from "graphql-tag";
 
+export const SECURITY_SUBSCRIPTION = gql`
+  subscription securityUpdated($id: ID!) {
+    securityUpdated(id: $id) {
+      id
+      symbol
+      name
+
+      quote {
+        latestPrice
+        changePercent
+        marketCap
+        latestVolume
+        avgTotalVolume
+        open
+        high
+        low
+        peRatio
+      }
+
+      stats {
+        week52High
+        week52Low
+        ttmEPS
+        beta
+      }
+
+      charts {
+        sixMonth {
+          data {
+            date
+            close
+          }
+          changePercent
+        }
+      }
+    }
+  }
+`;
+
+export const PORTFOLIO_SUBSCRIPTION = gql`
+  subscription portfolioUpdated($id: ID!) {
+    portfolioUpdated(id: $id) {
+      id
+      name
+      editable
+      marketing
+
+      securities {
+        id
+        symbol
+        name
+
+        quote {
+          latestPrice
+          changePercent
+          marketCap
+          latestVolume
+          avgTotalVolume
+          open
+          high
+          low
+          peRatio
+        }
+
+        stats {
+          week52High
+          week52Low
+          ttmEPS
+          beta
+        }
+
+        charts {
+          sixMonth {
+            data {
+              date
+              close
+            }
+            changePercent
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const GET_PORTFOLIO = gql`
   query Portfolio($id: ID!) {
     portfolio(id: $id) {
@@ -7,11 +92,40 @@ export const GET_PORTFOLIO = gql`
       name
       editable
       marketing
-      persisted @client
+
       securities {
         id
         symbol
         name
+
+        quote {
+          latestPrice
+          changePercent
+          marketCap
+          latestVolume
+          avgTotalVolume
+          open
+          high
+          low
+          peRatio
+        }
+
+        stats {
+          week52High
+          week52Low
+          ttmEPS
+          beta
+        }
+
+        charts {
+          sixMonth {
+            data {
+              date
+              close
+            }
+            changePercent
+          }
+        }
       }
     }
   }

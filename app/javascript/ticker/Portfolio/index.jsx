@@ -117,11 +117,6 @@ Portfolio.propTypes = {
 const enhancedPortfolio = compose(
   appComponent(),
   portfolioRootQuery(),
-  portfolioOverviewQuery(),
-  securitiesQuery(),
-  portfolioPerformanceQuery(),
-  portfolioFundamentalsQuery(),
-  portfolioTransactionsQuery(),
   portfolioDataSource()
 )(Portfolio);
 

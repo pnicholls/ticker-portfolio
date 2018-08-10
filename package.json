@@ -3,10 +3,11 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "3.5",
-    "add": "^2.0.6",
+    "actioncable": "^5.2.1",
     "apollo-boost": "^0.1.10",
     "babel-preset-react": "^6.24.1",
     "graphql": "^0.13.2",
+    "graphql-ruby-client": "^1.4.0",
     "graphql-tag": "^2.9.2",
     "lowdash": "^1.2.0",
     "numeral": "^2.0.6",
