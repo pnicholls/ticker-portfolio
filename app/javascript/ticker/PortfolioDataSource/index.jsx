@@ -67,6 +67,8 @@ export function portfolioDataSource() {
   return BaseComponent => {
     return class extends React.Component {
       render() {
+        console.log(this.props);
+
         const portfolio = _.get(this.props, "portfolioQuery.portfolio", {
           name: "-",
           persisted: true,
