@@ -75,7 +75,8 @@ export function portfolioDataSource() {
           securities: []
         });
 
-        const securities = _.get(this.props, "securitiesQuery.securities", []);
+        const securities = [];
+        // const securities = _.get(this.props, "securitiesQuery.securities", []);
 
         const addHandler = security => {
           return createPortfolioSecurity(
