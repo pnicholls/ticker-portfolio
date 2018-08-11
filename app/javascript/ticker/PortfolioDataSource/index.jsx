@@ -22,27 +22,6 @@ export function portfolioRootQuery() {
   });
 }
 
-export function portfolioOverviewQuery() {
-  return graphql(GET_PORTFOLIO_OVERVIEW, {
-    name: "portfolioOverviewQuery",
-    options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
-  });
-}
-
-export function portfolioPerformanceQuery() {
-  return graphql(GET_PORTFOLIO_PERFORMANCE, {
-    name: "portfolioPerformanceQuery",
-    options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
-  });
-}
-
-export function portfolioFundamentalsQuery() {
-  return graphql(GET_PORTFOLIO_FUNDAMENTALS, {
-    name: "portfolioFundamentalsQuery",
-    options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
-  });
-}
-
 export function portfolioTransactionsQuery() {
   return graphql(GET_PORTFOLIO_TRANSACTIONS, {
     name: "portfolioTransactionsQuery",
