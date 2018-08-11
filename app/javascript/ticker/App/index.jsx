@@ -7,6 +7,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { withClientState } from "apollo-link-state";
 import { GET_PORTFOLIO } from "../../src/lib/Queries";
+import { configSentry } from "../../src/lib/Sentry";
 import _ from "lodash";
 
 const csrfToken = document
@@ -110,6 +111,8 @@ export function appComponent() {
   return BaseComponent => {
     return class extends React.Component {
       render() {
+        configSentry();
+
         return (
           <ApolloProvider client={client}>
             <BaseComponent client={client} {...this.props} />
