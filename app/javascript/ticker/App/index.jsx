@@ -10,6 +10,7 @@ import ActionCable from "actioncable";
 import ActionCableLink from "graphql-ruby-client/subscriptions/ActionCableLink";
 import { GET_PORTFOLIO } from "../../src/lib/Queries";
 import _ from "lodash";
+import Raven from "raven-js";
 
 const csrfToken = document
   .querySelector("meta[name=csrf-token]")
@@ -121,6 +122,13 @@ const client = new ApolloClient({
 export function appComponent() {
   return BaseComponent => {
     return class extends React.Component {
+      constructor(props) {
+        super(props);
+        Raven.config(process.env.SENTRY_DNS, {
+          environment: process.env.NODE_ENV
+        }).install();
+      }
+
       render() {
         return (
           <ApolloProvider client={client}>
