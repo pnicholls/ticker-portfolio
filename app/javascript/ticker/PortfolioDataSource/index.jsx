@@ -67,16 +67,13 @@ export function portfolioDataSource() {
   return BaseComponent => {
     return class extends React.Component {
       render() {
-        console.log(this.props);
-
-        const portfolio = _.get(this.props, "portfolioQuery.portfolio", {
+        const portfolio = _.get(this, "props.portfolioQuery.portfolio", {
           name: "-",
           persisted: true,
           securities: []
         });
 
-        const securities = [];
-        // const securities = _.get(this.props, "securitiesQuery.securities", []);
+        const securities = _.get(this, "props.securitiesQuery.securities", []);
 
         const addHandler = security => {
           return createPortfolioSecurity(
@@ -100,11 +97,7 @@ export function portfolioDataSource() {
             variables={{ id: this.props.portfolioId }}
           >
             {({ subscribeToMore, ...result }) => {
-              const securities = _.get(result, "data.portfolio.securities", []);
-
-              securities.forEach(security => console.log(security));
-
-              securities.forEach(security =>
+              _.get(result, "data.portfolio.securities", []).forEach(security =>
                 subscribeToMore({
                   document: SECURITY_SUBSCRIPTION,
                   variables: { id: security.id }
