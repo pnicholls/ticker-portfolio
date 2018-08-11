@@ -9,7 +9,6 @@ import { withClientState } from "apollo-link-state";
 import ActionCable from "actioncable";
 import ActionCableLink from "graphql-ruby-client/subscriptions/ActionCableLink";
 import { GET_PORTFOLIO } from "../../src/lib/Queries";
-import { configSentry } from "../../src/lib/Sentry";
 import _ from "lodash";
 
 const csrfToken = document
@@ -123,8 +122,6 @@ export function appComponent() {
   return BaseComponent => {
     return class extends React.Component {
       render() {
-        configSentry();
-
         return (
           <ApolloProvider client={client}>
             <BaseComponent client={client} {...this.props} />

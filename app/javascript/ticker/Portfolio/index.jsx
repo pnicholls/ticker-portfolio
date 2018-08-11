@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { configSentry } from "../../src/lib/Sentry";
 import { compose } from "react-apollo";
 import { appComponent } from "../App/index";
 import {
@@ -115,6 +116,7 @@ Portfolio.propTypes = {
 };
 
 const enhancedPortfolio = compose(
+  configSentry(),
   appComponent(),
   portfolioRootQuery(),
   portfolioDataSource()
