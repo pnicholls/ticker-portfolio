@@ -95,7 +95,6 @@ export function portfolioDataSource() {
           <Query
             query={GET_PORTFOLIO}
             variables={{ id: this.props.portfolioId }}
-            pollInterval={1000 * 30}
           >
             {({ subscribeToMore, ...result }) => {
               _.get(result, "data.portfolio.securities", []).forEach(security =>
