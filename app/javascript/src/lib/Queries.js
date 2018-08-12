@@ -45,6 +45,7 @@ export const PORTFOLIO_SUBSCRIPTION = gql`
       id
       name
       editable
+      persisted @client
       marketing
 
       securities {
@@ -91,6 +92,7 @@ export const GET_PORTFOLIO = gql`
       id
       name
       editable
+      persisted @client
       marketing
 
       securities {
@@ -294,6 +296,7 @@ export const CREATE_PORTFOLIO_SECURITY_REMOTELY = gql`
         id
         name
         editable
+        persisted @client
         marketing
         securities {
           id
@@ -329,6 +332,7 @@ export const DESTROY_PORTFOLIO_SECURITY_REMOTELY = gql`
         id
         name
         editable
+        persisted @client
         marketing
         securities {
           id

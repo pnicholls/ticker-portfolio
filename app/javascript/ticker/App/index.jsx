@@ -111,7 +111,7 @@ const hasSubscriptionOperation = ({ query: { definitions } }) => {
 const link = ApolloLink.split(
   hasSubscriptionOperation,
   new ActionCableLink({ cable }),
-  httpLink
+  ApolloLink.from([stateLink, httpLink])
 );
 
 const client = new ApolloClient({
