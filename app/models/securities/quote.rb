@@ -43,7 +43,7 @@ module Securities
     end
 
     def refresh
-      return unless refresh_at.nil? || (refresh_at && (refresh_at < Time.current))
+      # return unless refresh_at.nil? || (refresh_at && (refresh_at < Time.current))
 
       Rails.cache.write(refresh_at_key, 3.minutes.from_now)
       FetchSecurityDataJob.perform_later(security)
