@@ -31,7 +31,42 @@ function createPortfolioSecurity(client, portfolio, security) {
   if (portfolio.editable) {
     client.mutate({
       variables: { portfolioID: portfolio.id, securityID: security.id },
-      mutation: CREATE_PORTFOLIO_SECURITY_REMOTELY
+      mutation: CREATE_PORTFOLIO_SECURITY_REMOTELY,
+      update: (cache, data) => {
+        const cachedData = cache.readQuery({
+          query: GET_PORTFOLIO,
+          variables: { id: data.data.createPortfolioSecurity.portfolio.id }
+        });
+
+        const security = {
+          ...data.data.createPortfolioSecurity.security,
+          quote: null,
+          stats: null,
+          charts: null
+        };
+
+        const updatedSecurities = _(cachedData.portfolio.securities)
+          .concat([security])
+          .uniqBy("id")
+          .value();
+
+        const updatedPortfolio = {
+          id: cachedData.portfolio.id,
+          name: cachedData.portfolio.name,
+          editable: cachedData.portfolio.editable,
+          persisted: cachedData.portfolio.editable,
+          marketing: cachedData.portfolio.marketing,
+          __typename: cachedData.portfolio.__typename,
+          securities: updatedSecurities
+        };
+
+        cache.writeQuery({
+          query: GET_PORTFOLIO,
+          data: { portfolio: updatedPortfolio }
+        });
+
+        return null;
+      }
     });
   } else {
     client.mutate({

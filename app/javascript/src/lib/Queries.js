@@ -174,6 +174,35 @@ export const CREATE_PORTFOLIO_SECURITY_REMOTELY = gql`
         id
         symbol
         name
+
+        quote {
+          latestPrice
+          changePercent
+          marketCap
+          latestVolume
+          avgTotalVolume
+          open
+          high
+          low
+          peRatio
+        }
+
+        stats {
+          week52High
+          week52Low
+          ttmEPS
+          beta
+        }
+
+        charts {
+          sixMonth {
+            data {
+              date
+              close
+            }
+            changePercent
+          }
+        }
       }
     }
   }
@@ -206,10 +235,40 @@ export const DESTROY_PORTFOLIO_SECURITY_REMOTELY = gql`
           name
         }
       }
+
       security {
         id
         symbol
         name
+
+        quote {
+          latestPrice
+          changePercent
+          marketCap
+          latestVolume
+          avgTotalVolume
+          open
+          high
+          low
+          peRatio
+        }
+
+        stats {
+          week52High
+          week52Low
+          ttmEPS
+          beta
+        }
+
+        charts {
+          sixMonth {
+            data {
+              date
+              close
+            }
+            changePercent
+          }
+        }
       }
     }
   }
