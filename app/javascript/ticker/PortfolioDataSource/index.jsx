@@ -56,7 +56,7 @@ function destroyPortfolioSecurity(client, portfolio, security) {
 }
 
 export function portfolioDataSource() {
-  const securitySubscriptions = [];
+  const subscriptions = [];
 
   return BaseComponent => {
     return class extends React.Component {
@@ -91,21 +91,23 @@ export function portfolioDataSource() {
             variables={{ id: this.props.portfolioId }}
           >
             {({ subscribeToMore, ...result }) => {
-              securitySubscriptions.forEach(subscription => {
-                subscription();
-              });
-              securitySubscriptions.splice(0, securitySubscriptions.length);
-
               _.get(result, "data.portfolio.securities", []).forEach(
                 security => {
-                  const subscription = subscribeToMore({
-                    document: SECURITY_SUBSCRIPTION,
-                    variables: { id: security.id }
-                  });
+                  const subscription = () => {
+                    subscribeToMore({
+                      document: SECURITY_SUBSCRIPTION,
+                      variables: { id: security.id }
+                    });
+                  };
 
-                  securitySubscriptions.push(subscription);
+                  if (!_.some(subscriptions, ["security.id", security.id])) {
+                    subscription();
+                    subscriptions.push({ security, subscription });
+                  }
                 }
               );
+
+              // need to remove subscriptions for securities that are no longer present
 
               return (
                 <BaseComponent
