@@ -7,15 +7,11 @@ class Security < ApplicationRecord
 
   scope :order_by_name, -> { order(:name) }
 
-  def refresh
-    [quote, stats, charts].each(&:refresh)
-  end
-
   def fetch
     [quote, stats, charts].each(&:fetch)
   end
 
-  def did_refresh
+  def did_change
     TickerSchema.subscriptions.trigger("securityUpdated", { id: id }, self)
   end
 

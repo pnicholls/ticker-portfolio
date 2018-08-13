@@ -27,6 +27,11 @@ class GraphqlChannel < ApplicationCable::Channel
       @subscription_ids << context[:subscription_id]
     end
 
+    @subscription_ids.each do |sid|
+      subscription = TickerSchema.subscriptions.read_subscription(sid)
+      enqueue_job(subscription)
+    end
+
     transmit(payload)
   end
 
@@ -45,6 +50,14 @@ class GraphqlChannel < ApplicationCable::Channel
       JSON.parse(query_variables)
     else
       query_variables
+    end
+  end
+
+  def enqueue_job(subscription)
+    case subscription[:operation_name]
+    when 'securityUpdated'
+      security = Security.where(subscription[:variables]).first
+      FetchSecurityDataJob.perform_later(security)
     end
   end
 end

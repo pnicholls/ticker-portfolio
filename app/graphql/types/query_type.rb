@@ -5,7 +5,7 @@ class Types::QueryType < Types::BaseObject
   end
 
   def portfolio(args)
-    Portfolio.includes(:securities).find(args[:id]).tap(&:refresh)
+    Portfolio.includes(:securities).find(args[:id])
   end
 
   field :security, Types::SecurityType, null: true do
@@ -17,9 +17,9 @@ class Types::QueryType < Types::BaseObject
   def security(args)
     case args
     when ->(arguments) { arguments[:symbol].present? }
-      Security.find_by(symbol: args[:symbol])&.tap(&:refresh)
+      Security.find_by(symbol: args[:symbol])
     when ->(arguments) { arguments[:id].present? }
-      Security.find(args[:id])&.tap(&:refresh)
+      Security.find(args[:id])
     end
   end
 
@@ -33,9 +33,7 @@ class Types::QueryType < Types::BaseObject
 
     ids = args.fetch(0, {}).fetch(:id, nil)
     if ids.present?
-      securities = Security.order(:symbol).where(id: ids)
-      securities.each(&:refresh)
-      securities
+      Security.order(:symbol).where(id: ids)
     end
   end
 
