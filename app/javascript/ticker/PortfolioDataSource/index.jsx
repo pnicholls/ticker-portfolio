@@ -7,8 +7,7 @@ import {
   GET_PORTFOLIO,
   PORTFOLIO_SUBSCRIPTION,
   SECURITY_SUBSCRIPTION,
-  GET_PORTFOLIO_TRANSACTIONS,
-  GET_SECURITIES_WITHOUT_QUOTES,
+  GET_SECURITIES,
   CREATE_PORTFOLIO_SECURITY_LOCALLY,
   CREATE_PORTFOLIO_SECURITY_REMOTELY,
   DESTROY_PORTFOLIO_SECURITY_LOCALLY,
@@ -22,15 +21,8 @@ export function portfolioRootQuery() {
   });
 }
 
-export function portfolioTransactionsQuery() {
-  return graphql(GET_PORTFOLIO_TRANSACTIONS, {
-    name: "portfolioTransactionsQuery",
-    options: ({ portfolioId }) => ({ variables: { id: portfolioId } })
-  });
-}
-
 export function securitiesQuery() {
-  return graphql(GET_SECURITIES_WITHOUT_QUOTES, {
+  return graphql(GET_SECURITIES, {
     name: "securitiesQuery"
   });
 }
