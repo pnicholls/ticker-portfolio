@@ -56,7 +56,7 @@ function destroyPortfolioSecurity(client, portfolio, security) {
 }
 
 export function portfolioDataSource() {
-  const subscriptions = [];
+  let subscriptions = [];
 
   return BaseComponent => {
     return class extends React.Component {
@@ -91,23 +91,31 @@ export function portfolioDataSource() {
             variables={{ id: this.props.portfolioId }}
           >
             {({ subscribeToMore, ...result }) => {
-              _.get(result, "data.portfolio.securities", []).forEach(
-                security => {
-                  const subscription = () => {
-                    subscribeToMore({
-                      document: SECURITY_SUBSCRIPTION,
-                      variables: { id: security.id }
-                    });
-                  };
-
-                  if (!_.some(subscriptions, ["security.id", security.id])) {
-                    subscription();
-                    subscriptions.push({ security, subscription });
-                  }
-                }
+              const portfolioSecurities = _.get(
+                result,
+                "data.portfolio.securities",
+                []
               );
+              portfolioSecurities.forEach(security => {
+                const subscription = () => {
+                  subscribeToMore({
+                    document: SECURITY_SUBSCRIPTION,
+                    variables: { id: security.id }
+                  });
+                };
 
-              // need to remove subscriptions for securities that are no longer present
+                if (!_.some(subscriptions, ["security.id", security.id])) {
+                  subscription();
+                  subscriptions.push({ security, subscription });
+                }
+              });
+
+              subscriptions = _.filter(subscriptions, subscription => {
+                return _.some(portfolioSecurities, [
+                  "id",
+                  subscription.security.id
+                ]);
+              });
 
               return (
                 <BaseComponent
