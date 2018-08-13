@@ -12,7 +12,8 @@ class Security < ApplicationRecord
   end
 
   def did_change
-    TickerSchema.subscriptions.trigger("securityUpdated", { id: id }, self)
+    subscribers = trigger_change_notification
+    enqueue_fetch_data_job_if_required if subscribers > 0
   end
 
   def quote
@@ -25,5 +26,15 @@ class Security < ApplicationRecord
 
   def charts
     @charts ||= Securities::Charts.new(self)
+  end
+
+  private
+
+  def trigger_change_notification
+    TickerSchema.subscriptions.trigger("securityUpdated", { id: id }, self)
+  end
+
+  def enqueue_fetch_data_job_if_required
+    FetchSecurityDataJob.new(self).enqueue(wait: 5.minutes)
   end
 end
