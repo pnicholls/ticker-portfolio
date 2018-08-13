@@ -27,10 +27,8 @@ class GraphqlChannel < ApplicationCable::Channel
       @subscription_ids << context[:subscription_id]
     end
 
-    @subscription_ids.each do |sid|
-      subscription = TickerSchema.subscriptions.read_subscription(sid)
-      enqueue_job(subscription)
-    end
+    subscription = TickerSchema.subscriptions.read_subscription(context[:subscription_id])
+    enqueue_job(subscription)
 
     transmit(payload)
   end
