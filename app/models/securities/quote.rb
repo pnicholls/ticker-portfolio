@@ -42,13 +42,6 @@ module Securities
       data.fetch('peRatio', nil)
     end
 
-    def refresh
-      return unless refresh_at.nil? || (refresh_at && (refresh_at < Time.current))
-
-      Rails.cache.write(refresh_at_key, 3.minutes.from_now)
-      FetchSecurityDataJob.perform_later(security)
-    end
-
     def fetch
       uri = URI("https://api.iextrading.com/1.0/stock/#{security.symbol}/quote")
       response = Net::HTTP.get(uri)
@@ -71,16 +64,8 @@ module Securities
       Rails.cache.write(cache_key, value, expires_in: 5.minutes)
     end
 
-    def refresh_at
-      Rails.cache.read(refresh_at_key) || nil
-    end
-
     def cache_key
       "stock/#{security.symbol}/quote"
-    end
-
-    def refresh_at_key
-      "stock/#{security.symbol}/quote/refresh_at"
     end
   end
 end

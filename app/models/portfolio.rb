@@ -9,8 +9,4 @@ class Portfolio < ApplicationRecord
   accepts_nested_attributes_for :portfolio_securities
 
   scope :order_by_name, -> { order(:name) }
-
-  def refresh
-    securities.each(&:refresh)
-  end
 end

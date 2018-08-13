@@ -36,6 +36,6 @@ class Types::SecurityType < Types::BaseObject
   end
 
   def charts
-    object.is_a?(Security) ? object.charts : object.security.charts
+    object.is_a?(Security) ? object.charts.presence : object.security.charts.presence
   end
 end

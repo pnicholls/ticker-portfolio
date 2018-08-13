@@ -6,9 +6,11 @@ import { ApolloProvider } from "react-apollo";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { withClientState } from "apollo-link-state";
+import ActionCable from "actioncable";
+import ActionCableLink from "graphql-ruby-client/subscriptions/ActionCableLink";
 import { GET_PORTFOLIO } from "../../src/lib/Queries";
-import { configSentry } from "../../src/lib/Sentry";
 import _ from "lodash";
+import Raven from "raven-js";
 
 const csrfToken = document
   .querySelector("meta[name=csrf-token]")
@@ -78,10 +80,6 @@ const destroyPortfolioSecurity = (obj, variables, { cache, getCacheKey }) => {
   return null;
 };
 
-const portfolioQuery = () => {
-  console.log("wtf");
-};
-
 const stateLink = withClientState({
   cache,
   defaults: { persisted: true },
@@ -93,26 +91,45 @@ const stateLink = withClientState({
   }
 });
 
+const cable = ActionCable.createConsumer();
+
+const httpLink = new HttpLink({
+  uri: "/graphql",
+  credentials: "same-origin",
+  headers: {
+    "X-CSRF-Token": csrfToken
+  }
+});
+
+const hasSubscriptionOperation = ({ query: { definitions } }) => {
+  return definitions.some(
+    ({ kind, operation }) =>
+      kind === "OperationDefinition" && operation === "subscription"
+  );
+};
+
+const link = ApolloLink.split(
+  hasSubscriptionOperation,
+  new ActionCableLink({ cable }),
+  ApolloLink.from([stateLink, httpLink])
+);
+
 const client = new ApolloClient({
-  link: ApolloLink.from([
-    stateLink,
-    new HttpLink({
-      uri: "/graphql",
-      credentials: "same-origin",
-      headers: {
-        "X-CSRF-Token": csrfToken
-      }
-    })
-  ]),
+  link: link,
   cache: cache
 });
 
 export function appComponent() {
   return BaseComponent => {
     return class extends React.Component {
-      render() {
-        configSentry();
+      constructor(props) {
+        super(props);
+        Raven.config(process.env.SENTRY_DNS, {
+          environment: process.env.NODE_ENV
+        }).install();
+      }
 
+      render() {
         return (
           <ApolloProvider client={client}>
             <BaseComponent client={client} {...this.props} />

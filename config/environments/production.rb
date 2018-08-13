@@ -34,10 +34,17 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
 
+  app_domain = ENV['APP_DOMAIN']
+  heroku_app_name = ENV['HEROKU_APP_NAME']
+
+  if app_domain.nil? && heroku_app_name
+    app_domain = "#{heroku_app_name}.herokuapp.com"
+  end
+
   # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
-  # config.action_cable.url = 'wss://example.com/cable'
-  # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
+  config.action_cable.url = "wss://#{app_domain}/cable"
+  config.action_cable.allowed_request_origins = ["http://#{app_domain}", "https://#{app_domain}"]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true

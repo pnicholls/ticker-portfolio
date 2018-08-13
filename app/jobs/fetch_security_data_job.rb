@@ -3,5 +3,6 @@ class FetchSecurityDataJob < ApplicationJob
 
   def perform(security)
     security.fetch
+    security.did_change
   end
 end
