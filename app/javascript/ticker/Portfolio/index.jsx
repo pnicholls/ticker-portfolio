@@ -36,7 +36,7 @@ const Section = props => {
       return <Fundamentals securities={props.securities} />;
     }
     case "transactions": {
-      return <Transactions securities={props.securities} />;
+      return <Transactions transactions={props.transactions} />;
     }
   }
 };
@@ -89,6 +89,7 @@ class Portfolio extends React.Component {
           <Section
             selectedNavItem={this.state.selectedNavItem}
             securities={this.props.portfolio.securities}
+            transactions={this.props.portfolio.transactions}
             removeHandler={this.props.removeHandler}
           />
 

@@ -43,6 +43,18 @@ export const GET_PORTFOLIO = gql`
           }
         }
       }
+
+      transactions {
+        id
+        security {
+          name
+          symbol
+        }
+        type
+        date
+        shares
+        price
+      }
     }
   }
 `;

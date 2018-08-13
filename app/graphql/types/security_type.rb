@@ -3,15 +3,15 @@ class Types::SecurityType < Types::BaseObject
   field :name, String, null: false
   field :symbol, String, null: false
 
-  field :quote, QuoteType, null: true do
+  field :quote, Types::QuoteType, null: true do
     description ''
   end
 
-  field :stats, StatsType, null: true do
+  field :stats, Types::StatsType, null: true do
     description ''
   end
 
-  field :charts, ChartsType, null: false do
+  field :charts, Types::ChartsType, null: false do
     description ''
   end
 
