@@ -31,7 +31,7 @@ class SecuritiesSelect extends React.Component {
         : this.props.placeholder;
 
     const addHandler = data => {
-      return this.props.addHandler(data.security);
+      return this.props.addHandler(_.get(data, "security"), null);
     };
 
     return (
