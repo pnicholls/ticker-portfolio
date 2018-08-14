@@ -14,6 +14,7 @@ import {
 } from "../PortfolioDataSource/index";
 import PortfolioHeader from "../PortfolioHeader/index";
 import SecuritiesSelect from "../SecuritiesSelect/index";
+import TransactionForm from "../TransactionForm/index";
 import Overview from "../Overview/index";
 import Performance from "../Performance/index";
 import Fundamentals from "../Fundamentals/index";
@@ -36,7 +37,12 @@ const Section = props => {
       return <Fundamentals securities={props.securities} />;
     }
     case "transactions": {
-      return <Transactions transactions={props.transactions} />;
+      return (
+        <Transactions
+          transactions={props.transactions}
+          securities={props.securities}
+        />
+      );
     }
   }
 };
@@ -73,6 +79,10 @@ class Portfolio extends React.Component {
       this.state.selectedNavItem
     );
 
+    const addTransaction = ["transactions"].includes(
+      this.state.selectedNavItem
+    );
+
     return (
       <div className="large-container">
         <div
@@ -98,7 +108,12 @@ class Portfolio extends React.Component {
               <SecuritiesSelect
                 securities={this.props.securities}
                 addHandler={this.props.addHandler}
+                placeholder="Add a security (search by name or symbol)"
               />
+            </div>
+
+            <div className={addTransaction ? "" : "display-none"}>
+              <TransactionForm securities={this.props.securities} />
             </div>
           </div>
         </div>
