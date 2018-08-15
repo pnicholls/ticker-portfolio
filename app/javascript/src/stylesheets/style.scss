@@ -209,10 +209,7 @@ input[type="text"],
 input[type="time"],
 input[type="url"],
 input[type="week"] {
-  height: 52px;
-  height: 3.25rem;
-  padding: 1pc;
-  padding: 1rem;
+  padding-left: 12px;
   vertical-align: middle;
   -webkit-appearance: none;
 }

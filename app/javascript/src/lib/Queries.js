@@ -43,6 +43,18 @@ export const GET_PORTFOLIO = gql`
           }
         }
       }
+
+      transactions {
+        id
+        security {
+          name
+          symbol
+        }
+        type
+        date
+        shares
+        price
+      }
     }
   }
 `;
@@ -204,6 +216,14 @@ export const CREATE_PORTFOLIO_SECURITY_REMOTELY = gql`
           }
         }
       }
+    }
+  }
+`;
+
+export const DESTROY_TRANSACTION = gql`
+  mutation destroyTransaction($id: ID!) {
+    destroyTransaction(id: $id) {
+      errors
     }
   }
 `;

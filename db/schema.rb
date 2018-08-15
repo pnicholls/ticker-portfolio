@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_19_225250) do
+ActiveRecord::Schema.define(version: 2018_08_13_225921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,20 @@ ActiveRecord::Schema.define(version: 2018_07_19_225250) do
     t.datetime "updated_at", null: false
     t.index ["identifier"], name: "index_securities_on_identifier"
     t.index ["symbol"], name: "index_securities_on_symbol"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.integer "transaction_type", default: 0, null: false
+    t.date "date", null: false
+    t.integer "shares", null: false
+    t.float "price", null: false
+    t.bigint "portfolio_id", null: false
+    t.bigint "security_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["portfolio_id", "security_id"], name: "index_transactions_on_portfolio_id_and_security_id"
+    t.index ["portfolio_id"], name: "index_transactions_on_portfolio_id"
+    t.index ["security_id"], name: "index_transactions_on_security_id"
   end
 
 end

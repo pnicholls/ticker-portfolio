@@ -6,7 +6,10 @@ import _ from "lodash";
 
 class SecuritiesSelect extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.securities.length != nextProps.securities.length;
+    return (
+      this.props.securities.length != nextProps.securities.length ||
+      this.props.value != nextProps.value
+    );
   }
 
   render() {
@@ -16,34 +19,30 @@ class SecuritiesSelect extends React.Component {
       label: `${security.symbol} - ${security.name}`
     }));
 
+    const value = _.find(options, ["value", _.get(this.props, "value.id")]);
+
     const filterOptions = createFilterOptions({
       options
     });
 
     const placeholder =
       this.props.securities.length === 0
-        ? "Loading search..."
-        : "Add a security (search by name or symbol)";
+        ? "Loading..."
+        : this.props.placeholder;
 
     const addHandler = data => {
-      return this.props.addHandler(data.security);
+      return this.props.addHandler(_.get(data, "security"), null);
     };
 
     return (
-      <div>
-        <label
-          className="mb1 md-col-12 col-8"
-          style={{ margin: "0px auto", maxWidth: "600px" }}
-        >
-          <Select
-            disabled={this.props.disabled}
-            filterOptions={filterOptions}
-            options={options}
-            placeholder={placeholder}
-            onChange={addHandler}
-          />
-        </label>
-      </div>
+      <Select
+        {...this.props}
+        filterOptions={filterOptions}
+        options={options}
+        placeholder={placeholder}
+        onChange={addHandler}
+        value={value}
+      />
     );
   }
 }
@@ -51,7 +50,8 @@ class SecuritiesSelect extends React.Component {
 SecuritiesSelect.defaultProps = {};
 
 SecuritiesSelect.propTypes = {
-  securities: PropTypes.array.isRequired
+  securities: PropTypes.array.isRequired,
+  placeholder: PropTypes.string.isRequired
 };
 
 export default SecuritiesSelect;
