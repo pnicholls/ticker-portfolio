@@ -34,7 +34,11 @@ const Form = props => {
           ]}
         />
 
-        <input type="text" placeholder="Date" className="Select-control mb2" />
+        <input
+          type="text"
+          placeholder="Date (MM/DD/YYYY)"
+          className="Select-control mb2"
+        />
         <input
           type="text"
           placeholder="Shares"

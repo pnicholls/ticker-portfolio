@@ -220,6 +220,14 @@ export const CREATE_PORTFOLIO_SECURITY_REMOTELY = gql`
   }
 `;
 
+export const DESTROY_TRANSACTION = gql`
+  mutation destroyTransaction($id: ID!) {
+    destroyTransaction(id: $id) {
+      errors
+    }
+  }
+`;
+
 export const DESTROY_PORTFOLIO_SECURITY_LOCALLY = gql`
   mutation destroyPortfolioSecurity(
     $portfolio: PortfolioType!

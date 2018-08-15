@@ -4,6 +4,7 @@ class Types::TransactionType < Types::BaseObject
   field :date, String, null: false
   field :shares, Int, null: false
   field :price, Float, null: false
+  field :portfolio, Types::PortfolioType, null: false
   field :security, Types::SecurityType, null: false
 
   def type
